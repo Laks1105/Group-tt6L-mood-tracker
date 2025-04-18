@@ -3,4 +3,8 @@ He brushes his teeth.
 He takes a bath
 he went school 
 He has breakfast.
+<<<<<<< HEAD
 Then he watched YouTube 
+=======
+Then he checked Instagram.
+>>>>>>> at-the-class
