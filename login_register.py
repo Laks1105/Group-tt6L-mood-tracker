@@ -7,7 +7,7 @@ app.secret_key = 'any_random_secret_key'  # Needed to keep users logged in
 
 # This function sets up the database and table
 def setup_database():
-    connection = sqlite3.connect("users.db")
+    connection = sqlite3.connect("users_info.db")
     cursor = connection.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
