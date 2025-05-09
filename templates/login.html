@@ -4,24 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login Page</title>
-  <link rel="stylesheet" href="login 2.css" />
-
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login Into Mood Tracker</h2>
-    <form action="/login" method="POST">
-      <div class="input-group">
+  <div class="page-title">
+    <h1>Welcome To The Mood Tracker App</h1>
+  </div>
+    <div class="login-container">
+     <h2>Login</h2>
+      <form action="/login" method="POST">
+       <div class="input-group">
         <label for="Email">Email</label>
         <input type="text" id="Email" name="Email" required />
-      </div>
-      <div class="input-group">
+       </div>
+       <div class="input-group">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
-    <p class="register-link">Don't have an account? <a href="#">Register</a></p>
+       </div>
+       <button type="submit">Login</button>
+      </form>
+     <p class="register-link">Don't have an account? <a href="Registration page.html">Register Here</a></p>
+    </div>
   </div>
 </body>
 </html>
+
