@@ -15,7 +15,7 @@ def login():
         password = request.form['password']
         # Just print input for now
         print("Login:", email, password)
-        return "Logged in (not really, just demo)"
+        return "Logged in Successfully"
     return render_template('login.html')
 
 # Register page
@@ -27,7 +27,7 @@ def register():
         password = request.form['password']
         confirm = request.form['confirm-password']
         print("Register:", name, email, password, confirm)
-        return "Registered (not really, just demo)"
+        return "Registered "
     return render_template('register.html')
 
 # Run the app
