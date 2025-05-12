@@ -28,7 +28,7 @@ def register():
         confirm = request.form['confirm-password']
         print("Register:", name, email, password, confirm)
         return "Registered (not really, just demo)"
-    return render_template('Register.html')
+    return render_template('register.html')
 
 # Run the app
 if __name__ == '__main__':
