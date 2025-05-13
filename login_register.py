@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import os
 
 app = Flask(__name__)
 
@@ -28,6 +29,7 @@ def register():
         print("Register:", name, email, password, confirm)
         return render_template('login.html')
     return render_template('register.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
