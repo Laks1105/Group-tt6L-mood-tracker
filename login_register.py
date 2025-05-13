@@ -13,7 +13,6 @@ def login():
     if request.method == 'POST':
         email = request.form['Email']
         password = request.form['password']
-        # Just print input for now
         print("Login:", email, password)
         return "Logged in Successfully"
     return render_template('login.html')
@@ -30,7 +29,6 @@ def register():
         return render_template('login.html')
     return render_template('register.html')
 
-# Run the app
 if __name__ == '__main__':
     app.run(debug=True)
 
