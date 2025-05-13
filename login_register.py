@@ -1,6 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 
+userdata_file ="user_database.db" # the file to store data
+
+# Check if the file exists, if not create it 
+def checkfile():
+    if not os.path.exists(userdata_file):
+        with open(userdata_file, "w") as file:
+            file.write("email,password\n")  # Write a simple header
+
+#to register new user only
+def save_data(name,email,password,confirm=""):
+    with open(userdata_file,"a") as file:#append mode 
+        file.write(f"{name},{email},{password},{confirm}\n") #\n is to split it to next line
+
+
 app = Flask(__name__)
 
 # Home page redirects to login
