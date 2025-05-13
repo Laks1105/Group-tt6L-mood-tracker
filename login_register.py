@@ -27,7 +27,7 @@ def register():
         password = request.form['password']
         confirm = request.form['confirm-password']
         print("Register:", name, email, password, confirm)
-        return "Registered Sucessfully. Welcome Again"
+        return render_template('login.html')
     return render_template('register.html')
 
 # Run the app
