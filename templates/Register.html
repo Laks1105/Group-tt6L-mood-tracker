@@ -11,7 +11,7 @@
     <h1>Welcome To The Mood Tracker App</h1>
   </div>
   <div class="container">
-    <form class="register-form">
+    <form class="register-form" method="POST" action="{{ url_for('register') }}">
       <h2>Create Account !!</h2>
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" placeholder="Enter your full name" required>
