@@ -5,22 +5,17 @@ import os
 app = Flask(__name__)
 
 # Initialize the database and create users table if it doesn't exist
-import sqlite3
-
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
-
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
-)
-''')
-
-conn.commit()
-conn.close()
+def init_db():
+    with sqlite3.connect('database.db') as conn:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL
+            )
+        ''')
+    print("Database and users table created successfully.")
 
 # Home page redirects to login
 @app.route('/')
