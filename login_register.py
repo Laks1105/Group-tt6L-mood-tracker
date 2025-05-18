@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Initialize the database and create users table if it doesn't exist
 def init_db():
-    with sqlite3.connect('database.db') as conn:
+    with sqlite3.connect('user_id_password.db') as conn:
         conn.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +22,6 @@ def init_db():
 def homepage():
     return redirect(url_for('login'))
 
-
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -31,7 +30,7 @@ def login():
         password = request.form['password']
 
         # Authenticate user
-        with sqlite3.connect('database.db') as conn:
+        with sqlite3.connect('user_id_password.db') as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
             user = cursor.fetchone()
@@ -56,7 +55,7 @@ def register():
             return "Passwords did not match! Try again"
 
         try:
-            with sqlite3.connect('database.db') as conn:
+            with sqlite3.connect('user_id_password.db') as conn:
                 cursor = conn.cursor()
                 cursor.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
                                (name, email, password))
@@ -70,7 +69,7 @@ def register():
 # View all users 
 @app.route('/users')
 def list_users():
-    with sqlite3.connect('database.db') as conn:
+    with sqlite3.connect('user_id_password.db') as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT id, name, email FROM users")
         users = cursor.fetchall()
@@ -80,7 +79,7 @@ def list_users():
 
 # Run app
 if __name__ == '__main__':
-    if not os.path.exists('database.db'):
+    if not os.path.exists('user_id_password.db'):
         init_db()
     app.run(debug=True)
 
