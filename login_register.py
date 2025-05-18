@@ -17,10 +17,11 @@ def init_db():
         ''')
     print("Database and users table created successfully.")
 
-# Home page redirects to login
+# Home page to login page
 @app.route('/')
-def home():
+def homepage():
     return redirect(url_for('login'))
+
 
 # Login page
 @app.route('/login', methods=['GET', 'POST'])
