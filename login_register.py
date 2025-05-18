@@ -69,7 +69,7 @@ def register():
 # View all users 
 @app.route('/users')
 def list_users():
-    with sqlite3.connect('user_database.db') as conn:
+    with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT id, name, email FROM users")
         users = cursor.fetchall()
@@ -79,7 +79,7 @@ def list_users():
 
 # Run app
 if __name__ == '__main__':
-    if not os.path.exists('user_database.db'):
+    if not os.path.exists('database.db'):
         init_db()
     app.run(debug=True)
 
