@@ -19,7 +19,7 @@ def init_db():
 
 # Home page redirects to login
 @app.route('/')
-def home():
+def homepage():
     return redirect(url_for('login'))
 
 # Login page
