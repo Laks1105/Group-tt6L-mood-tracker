@@ -75,8 +75,6 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-
-
 # Run app
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
