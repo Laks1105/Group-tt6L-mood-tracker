@@ -3,7 +3,6 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key_here'
 
 def init_db():
     try:
@@ -48,11 +47,12 @@ def login():
 
         if user:
             session['username'] = user[1] 
-            return redirect(url_for('mood selection'))  # Redirect to mood page
+            return redirect(url_for('mood_selector'))
         else:
             return "Invalid username or password. Please try again."
 
     return render_template('login.html')
+
 
 # Register page
 @app.route('/register', methods=['GET', 'POST'])
