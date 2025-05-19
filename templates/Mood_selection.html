@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Selector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Mood_selection 2.css') }}">
+</head>
+<body>
+   <header>
+    <div class="menu-bar">☰</div>
+    <input type="text" placeholder="Search..." class="search-bar" />
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }}</span></p>
+    <h1>How are you feeling today ?</h1>
+    <div class="mood-container">
+      <button class="mood-button"><span class="emoji">😊</span><p>Happy</p></button>
+      <button class="mood-button"><span class="emoji">😔</span><p>Sad</p></button>
+      <button class="mood-button"><span class="emoji">😡</span><p>Angry</p></button>
+      <button class="mood-button"><span class="emoji">🍃</span><p>Relax</p></button>
+      <button class="mood-button"><span class="emoji">🌀</span><p>Stress</p></button>
+      <button class="mood-button"><span class="emoji">⚡</span><p>Energetic</p></button>
+    </div>
+  </main>
+</body>
+</html>

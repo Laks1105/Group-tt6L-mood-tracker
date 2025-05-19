@@ -87,12 +87,12 @@ def list_users():
     return render_template('users.html', users=users)
 
 #Mood Selecting option - User's selecting their mood
-@app.route('/mood selection', methods=['GET', 'POST'])
+@app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
     username = session.get('username', 'Guest')
     if request.method == 'POST':
         selected_mood = request.form.get('mood')
-    return render_template('Mood Selection.html', username=username)
+    return render_template('Mood_selection.html', username=username)
 
 # Run app
 if __name__ == '__main__':
