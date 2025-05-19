@@ -91,9 +91,6 @@ def list_users():
 #Mood Selecting option - User's selecting their mood
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
-    username = session.get('username', 'Guest')
-    if request.method == 'POST':
-        selected_mood = request.form.get('mood')
     return render_template('Mood_selection.html')
 
 
