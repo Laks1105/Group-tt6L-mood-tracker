@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import os
 
@@ -85,6 +85,14 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
+#Mood Selecting option - 
+@app.route('/mood', methods=['GET', 'POST'])
+def mood_selector():
+    username = session.get('username', 'Guest')
+    if request.method == 'POST':
+        selected_mood = request.form.get('mood')
+        return f"<h1>Thanks, {username}. You're feeling <strong>{selected_mood}</strong> today!</h1><a href='/mood'>Back</a>"
+    return render_template('Mood Selection.html', username=username)
 
 # Run app
 if __name__ == '__main__':
