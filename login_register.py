@@ -3,6 +3,7 @@ import sqlite3
 import os
 
 app = Flask(__name__)
+app.secret_key = 'your_super_secret_key_here'
 
 def init_db():
     try:
@@ -94,6 +95,7 @@ def mood_selector():
         selected_mood = request.form.get('mood')
         return f"<h1>Welcome, {username}. You chose {selected_mood} today!</h1>"
     return render_template('Mood_selection.html', username=username)
+
 
 # Run app
 if __name__ == '__main__':
