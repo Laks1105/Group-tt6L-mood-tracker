@@ -92,6 +92,7 @@ def mood_selector():
     username = session.get('username', 'Guest')
     if request.method == 'POST':
         selected_mood = request.form.get('mood')
+        return f"<h1>Welcome, {username}. You chose {selected_mood} today!</h1>"
     return render_template('Mood_selection.html', username=username)
 
 # Run app
