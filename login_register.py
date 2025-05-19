@@ -66,14 +66,6 @@ def register():
 
     return render_template('register.html')
 
-# View all users 
-@app.route('/users')
-def list_users():
-    with sqlite3.connect('user_id_password.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, name, email FROM users")
-        users = cursor.fetchall()
-    return render_template('users.html', users=users)
 
 @app.route('/', methods=['GET', 'POST'])
 def mood_selector():
