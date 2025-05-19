@@ -17,12 +17,12 @@ def init_db():
         ''')
     print("Database and users table created successfully.")
 
-# Home page moves to login page
+# Home page to login page
 @app.route('/')
 def homepage():
     return redirect(url_for('login'))
 
-# Login page -username @ password already registered
+# Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -42,7 +42,7 @@ def login():
 
     return render_template('login.html')
 
-# Register page - New user wants to register their username @ password
+# Register page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -66,6 +66,14 @@ def register():
 
     return render_template('register.html')
 
+# View all users 
+@app.route('/users')
+def list_users():
+    with sqlite3.connect('user_id_password.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name, email FROM users")
+        users = cursor.fetchall()
+    return render_template('users.html', users=users)
 
 @app.route('/', methods=['GET', 'POST'])
 def mood_selector():
@@ -76,14 +84,6 @@ def mood_selector():
     
     return render_template('mood_selection.html')
 
-# View all users 
-@app.route('/users')
-def list_users():
-    with sqlite3.connect('user_id_password.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, name, email FROM users")
-        users = cursor.fetchall()
-    return render_template('users.html', users=users)
 
 # Run app
 if __name__ == '__main__':
