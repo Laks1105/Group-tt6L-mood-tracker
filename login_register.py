@@ -75,14 +75,6 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-@app.route('/', methods=['GET', 'POST'])
-def mood_selector():
-    if request.method == 'POST':
-        selected_mood = request.form.get('mood')
-        print(f"User selected mood: {selected_mood}")
-        return redirect(url_for('You have selected a mood today', mood=selected_mood))
-    
-    return render_template('mood_selection.html')
 
 
 # Run app
@@ -90,6 +82,5 @@ if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()
     app.run(debug=True)
-
 
 
