@@ -4,18 +4,28 @@ import os
 
 app = Flask(__name__)
 
-# Initialize the database and create users table if it doesn't exist
 def init_db():
-    with sqlite3.connect('user_id_password.db') as conn:
-        conn.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL
-            )
-        ''')
-    print("Database and users table created successfully.")
+    try:
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA integrity_check")
+            result = cursor.fetchone()
+            if result[0] != "ok":
+                raise sqlite3.DatabaseError("Corrupt database")
+
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL
+                )
+            ''')
+            print("Database and users table checked/created successfully.")
+    except sqlite3.DatabaseError:
+        os.remove('user_id_password.db')
+        print("Corrupted DB found. Deleted and recreating.")
+        init_db()
 
 # Home page to login page
 @app.route('/')
@@ -74,7 +84,6 @@ def list_users():
         cursor.execute("SELECT id, name, email FROM users")
         users = cursor.fetchall()
     return render_template('users.html', users=users)
-
 
 
 # Run app
