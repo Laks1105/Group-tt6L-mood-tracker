@@ -46,7 +46,8 @@ def login():
             user = cursor.fetchone()
 
         if user:
-            return f"Welcome {user[1]}! You are logged in to our website."
+            session['username'] = user[1] 
+            return redirect(url_for('mood selection'))  # Redirect to mood page
         else:
             return "Invalid username or password. Please try again."
 
@@ -85,13 +86,12 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-#Mood Selecting option - 
-@app.route('/mood', methods=['GET', 'POST'])
+#Mood Selecting option - User's selecting their mood
+@app.route('/mood selection', methods=['GET', 'POST'])
 def mood_selector():
     username = session.get('username', 'Guest')
     if request.method == 'POST':
         selected_mood = request.form.get('mood')
-        return f"<h1>Thanks, {username}. You're feeling <strong>{selected_mood}</strong> today!</h1><a href='/mood'>Back</a>"
     return render_template('Mood Selection.html', username=username)
 
 # Run app
