@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 import sqlite3
 import os
 
@@ -14,6 +15,20 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Avoid warning
 
 # Initialize the database
 db = SQLAlchemy(app)
+
+# User Model
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+    mood_entries = db.relationship('MoodEntry', backref='user', lazy=True)
+
+# Mood Entry Model
+class MoodEntry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    mood = db.Column(db.String(50), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 # Create tables
 with app.app_context():
@@ -106,10 +121,20 @@ def list_users():
 # Mood Selecting option - User's selecting their mood
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
-    name = session.get('username', 'Guest')
+    name = session.get('username', 'Guest') #Getting User input
+    user_id = session.get('user_id')  
+
     if request.method == 'POST':
         selected_mood = request.form.get('mood')
-        return f"{name}You chose {selected_mood} Today"
+
+        if user_id:
+            mood_entry = MoodEntry(user_id=user_id, mood=selected_mood)
+            db.session.add(mood_entry)
+            db.session.commit()
+            return f"{name}, you chose '{selected_mood}' Today!"
+        else:
+            return "User not found. Please log in."
+
     return render_template('Mood_selection.html')
 
 
