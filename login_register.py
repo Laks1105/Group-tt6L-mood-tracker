@@ -88,7 +88,7 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-#Mood Selecting option - User's selecting their mood
+# Mood Selecting option - User's selecting their mood
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
     name = session.get('username', 'Guest')
@@ -98,7 +98,6 @@ def mood_selector():
     return render_template('Mood_selection.html')
 
 
-# Run app
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()
