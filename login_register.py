@@ -121,8 +121,11 @@ def list_users():
 # Mood Selecting option - User's selecting their mood
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
-    name = session.get('username', 'Guest') #Getting User input
-    user_id = session.get('user_id')  
+    name = session.get('username', 'Guest')
+    user_id = session.get('user_id')
+
+    mood_options = [("Happy", "😊"), ("Sad", "😔"), ("Angry", "😡"),
+                    ("Relax", "🍃"), ("Stress", "🌀"), ("Energetic", "⚡")]
 
     if request.method == 'POST':
         selected_mood = request.form.get('mood')
@@ -135,7 +138,8 @@ def mood_selector():
         else:
             return "User not found. Please log in."
 
-    return render_template('Mood_selection.html')
+    return render_template('Mood_selection.html', moods=mood_options)
+
 
 
 if __name__ == '__main__':
