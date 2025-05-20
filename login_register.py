@@ -77,7 +77,8 @@ def login():
             user = cursor.fetchone()
 
         if user:
-            session['username'] = user[1] 
+            session['username'] = user[1]  # user's name
+            session['user_id'] = user[0]   # user's ID
             return redirect(url_for('mood_selector'))
         else:
             return "Invalid username or password. Please try again."
@@ -135,12 +136,10 @@ def mood_selector():
         else:
             return "User not found. Please log in."
 
-    return render_template('Mood_selection.html', username=name)
+    return render_template('Mood_selection.html', name=name, mood=selected_mood)
 
 
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()
     app.run(debug=True)
-
-
