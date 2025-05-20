@@ -136,7 +136,7 @@ def mood_selector():
         else:
             return "User not found. Please log in."
 
-    return render_template('Mood_selection.html', name=name, mood=selected_mood)
+    return render_template('Mood_selection.html', username=name)
 
 
 if __name__ == '__main__':
