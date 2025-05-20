@@ -1,9 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key_here'
+
+# Set secret key for sessions
+app.config['SECRET_KEY'] = 'your_super_secret_key_here'
+
+# Database configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mood_tracker.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Avoid warning
+
+# Initialize the database
+db = SQLAlchemy(app)
+
+# Create tables
+with app.app_context():
+    db.create_all()
+
 
 def init_db():
     try:
