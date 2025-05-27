@@ -160,12 +160,6 @@ def sad_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Sad_1.html', username=username)
 
-#Sad Mood Selection
-@app.route('/mood/sad')
-def sad_mood_opt():
-    username = session.get('username', 'Guest')
-    return render_template('Song_Selection_Sad_1.html', username=username)
-
 #Stress Mood Selection
 @app.route('/mood/stress')
 def stress_mood_opt():
