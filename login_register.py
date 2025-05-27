@@ -124,19 +124,26 @@ def list_users():
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
     name = session.get('username', 'Guest')  # Getting username 
-    user_id = session.get('user_id')  # Getting user password
+    user_id = session.get('user_id')  # Getting user id
 
     if request.method == 'POST':
         selected_mood = request.form.get('mood')  # User selecting their mood
+        
         # Saving the mood to the database
         mood_entry = MoodEntry(user_id=user_id, mood=selected_mood)
         db.session.add(mood_entry)
         db.session.commit()
-        
+
+        # Redirect based on selected mood
+        if selected_mood == 'happy':
+            return redirect(url_for('mood_happy'))
+        # You can add more moods here like:
+        # elif selected_mood == 'sad':
+        #     return redirect(url_for('mood_sad'))
+
         return f"{name}, you chose '{selected_mood}' Today!"
-    if selected_mood == 'happy':
-        return redirect(url_for('mood_happy')) #if user choose happy 
     
+    # If GET request, just render the mood selection page
     return render_template('Mood_selection.html', username=name)
 
 #Happy Mood
