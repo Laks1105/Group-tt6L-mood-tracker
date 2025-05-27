@@ -58,12 +58,12 @@ def init_db():
         print("Corrupted DB found. Deleted and recreating.")
         init_db()
 
-# Home page to login page
+# route for Home page to login page
 @app.route('/')
 def homepage():
     return redirect(url_for('login'))
 
-# Login page code
+# route for Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -87,7 +87,7 @@ def login():
     return render_template('login.html')
 
 
-# Register page code
+# Route for Register page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -120,7 +120,7 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-# Mood Selecting option - User's selecting their mood
+# Route for Mood Selection (user selecting the mood)
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
     name = session.get('username', 'Guest')  # Getting username 
