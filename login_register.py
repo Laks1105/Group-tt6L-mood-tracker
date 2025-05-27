@@ -135,8 +135,8 @@ def mood_selector():
         db.session.commit()
 
         # Redirect based on selected mood
-        if selected_mood == 'happy' or "Happy":
-            return redirect(url_for('mood_happy'))
+        if selected_mood == 'Happy':
+            return redirect(url_for('happy_mood_opt'))
         # You can add more moods here like:
         # elif selected_mood == 'sad':
         #     return redirect(url_for('mood_sad'))
@@ -148,7 +148,7 @@ def mood_selector():
 
 #Happy Mood Selection
 @app.route('/mood/happy')
-def mood_happy():
+def happy_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Happy_1.html', username=username)
 
