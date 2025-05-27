@@ -134,18 +134,17 @@ def mood_selector():
         db.session.add(mood_entry)
         db.session.commit()
 
-        # Redirect based on selected mood
+        # Options based on selected mood
         if selected_mood == 'Happy':
             return redirect(url_for('happy_mood_opt')) #if user choose happy
         elif selected_mood == 'Sad':
             return redirect(url_for('sad_mood_opt'))  #if user choose sad
         elif selected_mood == 'Stress':
             return redirect(url_for('stress_mood_opt')) #if user choose stress
-        # You can add more moods here like:
+        #Havent complete yet (pending)
 
-        return f"{name}, you chose '{selected_mood}' Today!"
+        return f"{name}, you chose '{selected_mood}' Today!" #if the option is not there
     
-    # If GET request, just render the mood selection page
     return render_template('Mood_selection.html', username=name)
 
 #Happy Mood Selection
