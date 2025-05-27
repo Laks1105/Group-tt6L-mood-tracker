@@ -11,9 +11,9 @@ app.config['SECRET_KEY'] = 'your_super_secret_key_here'
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mood_tracker.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Avoid warning
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 
-# Initialize the database
+# Installing the database
 db = SQLAlchemy(app)
 
 # User Model
@@ -63,12 +63,12 @@ def init_db():
 def homepage():
     return redirect(url_for('login'))
 
-# Login page
+# Login page code
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['Email']
-        password = request.form['password']
+        email = request.form['Email'] #inserting username
+        password = request.form['password'] #inserting password
 
         # Authenticate user
         with sqlite3.connect('user_id_password.db') as conn:
@@ -76,9 +76,10 @@ def login():
             cursor.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
             user = cursor.fetchone()
 
+        #checking username and password 
         if user:
-            session['username'] = user[1]  # user's name
-            session['user_id'] = user[0]   # user's ID
+            session['username'] = user[1]  
+            session['user_id'] = user[0]   
             return redirect(url_for('mood_selector'))
         else:
             return "Invalid username or password. Please try again."
@@ -86,14 +87,14 @@ def login():
     return render_template('login.html')
 
 
-# Register page
+# Register page code
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        confirm = request.form['confirm-password']
+        name = request.form['name'] #ask name
+        email = request.form['email'] #ask email
+        password = request.form['password'] #ask password
+        confirm = request.form['confirm-password'] #confirm password
 
         if password != confirm:
             return "Passwords did not match! Try again"
