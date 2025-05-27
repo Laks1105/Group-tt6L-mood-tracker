@@ -136,12 +136,12 @@ def mood_selector():
 
         # Redirect based on selected mood
         if selected_mood == 'Happy':
-            return redirect(url_for('happy_mood_opt'))
+            return redirect(url_for('happy_mood_opt')) #if user choose happy
         elif selected_mood == 'Sad':
-            return redirect(url_for('sad_mood_opt'))
+            return redirect(url_for('sad_mood_opt'))  #if user choose sad
+        elif selected_mood == 'Stress':
+            return redirect(url_for('stress_mood_opt')) #if user choose stress
         # You can add more moods here like:
-        # elif selected_mood == 'sad':
-        #     return redirect(url_for('mood_sad'))
 
         return f"{name}, you chose '{selected_mood}' Today!"
     
@@ -159,6 +159,18 @@ def happy_mood_opt():
 def sad_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Sad_1.html', username=username)
+
+#Sad Mood Selection
+@app.route('/mood/sad')
+def sad_mood_opt():
+    username = session.get('username', 'Guest')
+    return render_template('Song_Selection_Sad_1.html', username=username)
+
+#Stress Mood Selection
+@app.route('/mood/stress')
+def stress_mood_opt():
+    username = session.get('username', 'Guest')
+    return render_template('Song_Selection_Stress_1.html', username=username)
 
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
