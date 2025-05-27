@@ -136,10 +136,10 @@ def mood_selector():
         return f"{name}, you chose '{selected_mood}' Today!"
     
     if selected_mood == 'happy':
-            return redirect(url_for('mood_happy'))
+            return redirect(url_for('mood_happy')) #if user choose happy 
     return render_template('Mood_selection.html', username=name)
 
-
+#Happy Mood
 @app.route('/mood/happy')
 def mood_happy():
     username = session.get('username', 'Guest')
