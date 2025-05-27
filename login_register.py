@@ -132,11 +132,11 @@ def mood_selector():
         mood_entry = MoodEntry(user_id=user_id, mood=selected_mood)
         db.session.add(mood_entry)
         db.session.commit()
-
+        
         return f"{name}, you chose '{selected_mood}' Today!"
-    
     if selected_mood == 'happy':
-            return redirect(url_for('mood_happy')) #if user choose happy 
+        return redirect(url_for('mood_happy')) #if user choose happy 
+    
     return render_template('Mood_selection.html', username=name)
 
 #Happy Mood
