@@ -129,7 +129,7 @@ def mood_selector():
     if request.method == 'POST':
         selected_mood = request.form.get('mood')  # User selecting their mood
         
-        # Saving the mood to the database
+        # Saving the mood in database
         mood_entry = MoodEntry(user_id=user_id, mood=selected_mood)
         db.session.add(mood_entry)
         db.session.commit()
