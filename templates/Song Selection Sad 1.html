@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <link rel="stylesheet" href="Song Selection Sad.css">
+</head>
+<body>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h3> Track your mood daily and unlock songs, tips, and meditation just for you.</h3>
+    <h1> Music suggestion based on your mood : 😔</h1>
+
+    <div class="language-selector" id="langButtons">
+      <button class="active" onclick="selectLanguage('english', event)">English</button>
+      <button onclick="selectLanguage('malay', event)">Malay</button>
+      <button onclick="selectLanguage('chinese', event)">Chinese</button>
+      <button onclick="selectLanguage('tamil', event)">Tamil</button>
+    </div>
+
+    <div class="songs" id="songList">
+      <p><a href="https://www.youtube.com/watch?v=xQOO2xGQ1Pc" target="_blank">▶️ Justin Bieber – Lonely</a></p>
+      <p><a href="https://www.youtube.com/watch?v=M4ZoCHID9GI" target="_blank">▶️ The Weeknd – Call Out My Name</a></p>
+      <p><a href="https://www.youtube.com/watch?v=hLQl3WQQoQ0" target="_blank">▶️ Adele – Someone Like You</a></p>
+      <p><a href="https://www.youtube.com/watch?v=J_ub7Etch2U" target="_blank">▶️ Sam Smith – Too Good at Goodbyes</a></p>
+      <p><a href="https://www.youtube.com/watch?v=bCuhuePlP8o" target="_blank">▶️ Lewis Capaldi – Someone You Loved</a></p>
+      <p><a href="https://www.youtube.com/watch?v=EgBJmlPo8Xw" target="_blank">▶️ Billie Eilish – Everything I Wanted</a></p>
+      <p><a href="https://www.youtube.com/watch?v=wVyggTKDcOE" target="_blank">▶️ James Blunt – Goodbye My Lover</a></p>
+      <p><a href="https://www.youtube.com/watch?v=cjVQ36NhbMk" target="_blank">▶️ The Fray – How to Save a Life</a></p>
+      <p><a href="https://www.youtube.com/watch?v=5anLPw0Efmo" target="_blank">▶️ Evanescence – My Immortal</a></p>
+      <p><a href="https://www.youtube.com/watch?v=k4V3Mo61fJM" target="_blank">▶️ Coldplay – Fix You</a></p>
+    </div>
+
+    <div class="tips">
+      <div class="tip-box">
+        <h2>Breathing for Self-Compassion</h2>
+        <p>Close your eyes, put your hand on your heart. Inhale deeply and think, "It's okay to feel sad."</p>
+      </div>
+      <div class="tip-box">
+        <h2>Visualization of Light</h2>
+        <p>Picture a warm golden light entering your chest every time you breathe in. Let it "heal" the heavy feeling inside you.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songs = {
+      english: [
+        { title: "▶️ Justin Bieber – Lonely", url: "https://www.youtube.com/watch?v=xQOO2xGQ1Pc" },
+        { title: "▶️ The Weeknd – Call Out My Name", url: "https://www.youtube.com/watch?v=M4ZoCHID9GI" },
+        { title: "▶️ Adele – Someone Like You", url: "https://www.youtube.com/watch?v=hLQl3WQQoQ0" },
+        { title: "▶️ Sam Smith – Too Good at Goodbyes" , url: "https://www.youtube.com/watch?v=J_ub7Etch2U" },
+        { title: "▶️ Lewis Capaldi – Someone You Loved" , url: "https://www.youtube.com/watch?v=bCuhuePlP8o" },
+        { title: "▶️ Billie Eilish – Everything I Wanted Happy" , url: "https://www.youtube.com/watch?v=EgBJmlPo8Xw" },
+        { title: "▶️ James Blunt – Goodbye My Lover" , url: "https://www.youtube.com/watch?v=wVyggTKDcOE" },
+        { title: "▶️ The Fray – How to Save a Life" , url: "https://www.youtube.com/watch?v=cjVQ36NhbMk" },
+        { title: "▶️ Evanescence – My Immortal" , url: "https://www.youtube.com/watch?v=5anLPw0Efmo" },
+        { title: "▶️ Coldplay – Fix You" , url: "https://www.youtube.com/watch?v=k4V3Mo61fJM" },
+        
+      ],
+      malay: [
+        { title: "▶️ Sumpah – Naim Daniel", url: "https://youtu.be/1Us6UaLARPY?feature=shared" },
+        { title: "▶️ Pulang – Imsomniacks", url: "https://youtu.be/j4ckkzbbETk?feature=shared" },
+        { title: "▶️ Peluang Kedua – Nabila Razali", url: "https://youtu.be/zIpBiEerHOA?feature=shared" },
+        { title: "▶️ Sampai Syurga – Faizal Tahir", url: "https://youtu.be/WkPQBSqBIJY?feature=shared" },
+        { title: "▶️ Ku Rela Dibenci – Aiman Tino", url: "https://youtu.be/zqByJjSJkso?feature=shared" },
+        { title: "▶️ Berakhirlah Sudah – Atmosfera", url: "https://youtu.be/w4oyh99jSqw?feature=shared" },
+        { title: "▶️ Pergi Tak Meninggalkan – Ekhsan", url: "https://youtu.be/UAKAZf3jykY?feature=shared" },
+        { title: "▶️ Di Matamu – Sufian Suhaimi", url: "https://youtu.be/9_Hw7L3zqSE?feature=shared" } 
+      ],
+      
+      chinese: [
+        { title: "▶️ 我走後 After I Left (深情版)", url: "https://youtu.be/EqvAqeaUpRQ?si=CGGIMNbDJX9ktNm4" },
+        { title: "▶️ 跳楼机 (Jumping Machine)", url: "https://youtu.be/HegSBovl24I?si=m1VM1E6tCGI92FeU" },
+        { title: "▶️ I'm So Into You (The First Frost)", url: "https://youtu.be/dpAM2evUGCs?si=_xuu3ktXxQ34BSFo" },
+        { title: "▶️ Wanting 曲婉婷 - 我的歌声里 (You Exist in My Song)", url: "https://youtu.be/w0dMz8RBG7g?si=b7LAQaVCiz1GdIjf" },
+        { title: "▶️ 如果雨之后 (The Chaos After You)", url: "https://youtu.be/gdGdO6KjF1I?si=HyrLx_spIHs6pjS0" },
+        { title: "▶️ 錯過的煙火 (You Are The Firework I Missed)", url: "https://youtu.be/9tN1xixvYOc?si=C-RS47ntlJvzkVZp" },
+        { title: "▶️ 愛情教會我們的事 (What Love Has Taught Us)", url: "https://youtu.be/k8A3aQhOfqc?si=J4rW7VEixz_9kGz0" },
+      ],
+
+      tamil: [
+        { title: "▶️ Ennodu Nee Irundhaal – I", url: "https://www.youtube.com/watch?v=EhhiY11Z9-U" },
+        { title: "▶️ Kanave Kanave – David", url: "https://www.youtube.com/watch?v=FHBoZgRwvSQ" },
+        { title: "▶️ Thalli Pogathey – Achcham Yenbadhu Madamaiyada", url: "https://www.youtube.com/watch?v=JPOfr0NBDDA" },
+        { title: "▶️ Poongatrile – Uyire", url: "https://www.youtube.com/watch?v=bFTHTBxS2e0" },
+        { title: "▶️ Koondukkulla – Chinna Goundar", url: "https://www.youtube.com/watch?v=Kpxv_niRCyg" },
+        { title: "▶️ Ennadi Maayavi Nee – Vada Chennai", url: "https://www.youtube.com/watch?v=p-iwOGz86Es" },
+        { title: "▶️ Vidukathaiya – Muthu", url: "https://www.youtube.com/watch?v=oi0LhtjcU3E" },
+        { title: "▶️ Thimu Thimu – Engeyum Kadhal", url: "https://www.youtube.com/watch?v=QoK8x_2C4go" },
+        { title: "▶️ Mannipaya – Vinnaithaandi Varuvaayaa", url: "https://www.youtube.com/watch?v=0iXBOpUkx-0" },
+        { title: "▶️ Enge Enadhu Kavithai – Kandukondain Kandukondain", url: "https://www.youtube.com/watch?v=9LBv1TOfo40" }
+      ]
+    };
+
+    function selectLanguage(lang, event) {
+      document.querySelectorAll('#langButtons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const songList = document.getElementById('songList');
+      songList.innerHTML = songs[lang].map(song => `<p><a href="${song.url}" target="_blank">${song.title}</a></p>`).join('');
+    }
+
+  </script>
+ </main>
+</body>
+</html>

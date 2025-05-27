@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Song Selection Happy.css') }}">
+</head>
+<body>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h3> Track your mood daily and unlock songs, tips, and meditation just for you.</h3>
+    <h1> Music suggestion based on your mood : 😊</h1>
+
+    <div class="language-selector" id="langButtons">
+      <button class="active" onclick="selectLanguage('english', event)">English</button>
+      <button onclick="selectLanguage('malay', event)">Malay</button>
+      <button onclick="selectLanguage('chinese', event)">Chinese</button>
+      <button onclick="selectLanguage('tamil', event)">Tamil</button>
+    </div>
+
+    <div class="songs" id="songList">
+      <p><a href="https://www.youtube.com/watch?v=oyEuk8j8imI" target="_blank">▶️ Justin Bieber - Love Yourself</a></p>
+      <p><a href="https://www.youtube.com/watch?v=4NRXx6U8ABQ" target="_blank">▶️ The Weeknd - I Feel It Coming</a></p>
+      <p><a href="https://www.youtube.com/watch?v=ru0K8uYEZWw" target="_blank">▶️ Justin Timberlake - Can't Stop the Feeling!</a></p>
+      <p><a href="https://www.youtube.com/watch?v=ZbZSe6N_BXs" target="_blank">▶️ Pharrell Williams - Happy</a></p>
+      <p><a href="https://www.youtube.com/watch?v=TUVcZfQe-Kw" target="_blank">▶️ Dua Lipa - Levitating</a></p>
+      <p><a href="https://www.youtube.com/watch?v=nfWlot6h_JM" target="_blank">▶️ Taylor Swift - Shake It Off</a></p>
+      <p><a href="https://www.youtube.com/watch?v=JGwWNGJdvx8" target="_blank">▶️ Ed Sheeran - Shape of You</a></p>
+      <p><a href="https://www.youtube.com/watch?v=OPf0YbXqDm0" target="_blank">▶️ Mark Ronson ft.Bruno Mars - Uptown</a></p>
+      <p><a href="https://www.youtube.com/watch?v=c6rP-YP4c5I" target="_blank">▶️ Shakira - Try Everything</a></p>
+      <p><a href="https://www.youtube.com/watch?v=QGJuMBdaqIw" target="_blank">▶️ Katy Perry - Firework</a></p>
+    </div>
+
+    <div class="tips">
+      <div class="tip-box">
+        <h2>Create a Peaceful Space</h2>
+        <p>Choose a quiet, comfortable place.
+           Add calming elements like soft lighting, candles, or nature sounds."</p>
+      </div>
+      <div class="tip-box">
+        <h2>Focus on Your Breath</h2>
+        <p>Deep, slow breathing calms the nervous system. Inhale through the nose, exhale through the mouth.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songs = {
+      english: [
+        { title: "▶️ Justin Bieber - Love Yourself", url: "https://www.youtube.com/watch?v=oyEuk8j8imI" },
+        { title: "▶️ The Weeknd - I Feel It Coming", url: "https://www.youtube.com/watch?v=4NRXx6U8ABQ" },
+        { title: "▶️ Justin Timberlake - Can't Stop the Feeling!", url: "https://www.youtube.com/watch?v=ru0K8uYEZWw" },
+        { title: "▶️ Pharrell Williams - Happy" , url: "https://www.youtube.com/watch?v=ZbZSe6N_BXs" },
+        { title: "▶️ Dua Lipa - Levitating" , url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw" },
+        { title: "▶️ Taylor Swift - Shake It Off" , url: "https://www.youtube.com/watch?v=nfWlot6h_JM" },
+        { title: "▶️ Ed Sheeran - Shape of You" , url: "https://www.youtube.com/watch?v=JGwWNGJdvx8" },
+        { title: "▶️ Mark Ronson ft.Bruno Mars - Uptown" , url: "https://www.youtube.com/watch?v=OPf0YbXqDm0" },
+        { title: "▶️ Shakira - Try Everything" , url: "https://www.youtube.com/watch?v=c6rP-YP4c5I" },
+        { title: "▶️ Katy Perry - Firework" , url: "https://www.youtube.com/watch?v=QGJuMBdaqIw" },       
+      ],
+      
+      malay: [
+        { title: "▶️ Senyum-Malique", url: "https://www.youtube.com/watch?v=5ID2UgZMjWo" },
+        { title: "▶️ Bidadari-Ismail Izzani", url: "https://www.youtube.com/watch?v=40HPwSNc1NQ" },
+        { title: "▶️ Tekad-Aizat Amdan", url: "https://www.youtube.com/watch?v=S8O0crnWB0A" },
+        { title: "▶️ Sejati- Faizal Tahir", url: "https://www.youtube.com/watch?v=JCL1opX0oM0" },
+        { title: "▶️ Ragaman- Faizal Tahir", url: "https://www.youtube.com/watch?v=9hUN3mKxNE8" },
+        { title: "▶️ Malam ku Bermimpi- Dayang Nurfaizah", url: "https://www.youtube.com/watch?v=8L1_8H5frq0" },
+        
+      ],
+      chinese: [
+        { title: "▶️ LBI - 跳楼机 (jumping Machine)", url: "https://youtu.be/HegSBovl24I?si=WGw84B9zeHnmwRhm" },
+        { title: "▶️ 理想混蛋 Bestards", url: "⁠https://youtu.be/3hLESh77fSg?si=htOhhyhU0-Ct7atu" },
+        { title: "▶️ LBI利比 - 小城夏天", url: "⁠https://youtu.be/8uZGBbic0a4?si=fU8XfCRN4p9kCdzn" },
+        { title: "▶️ Ian 陳卓賢 《再見 寧靜海》", url: "⁠https://youtu.be/mfjMLJEWQ8w?si=C8gMqx7iUFt1jjMT" },
+        { title: "▶️ Like Sunny Days, Like Rainy Days 像晴天像雨天", url: "⁠https://youtu.be/flBsWg14Rgc?si=vU7AR6Xt0P7MICX9" },
+        { title: "▶️ 終於了解自由 Freedom", url: "⁠https://youtu.be/BVK_Q6KZSUI?si=u-jCn1VtQGlkHaQi" },
+        { title: "▶️ 我多喜歡你,你會知道 (A love so beautiful)", url: "https://youtu.be/7I1SPKwTXJ0?si=DOMM9PYNwg9lNoAS" },
+        
+      ],
+      tamil: [
+        { title: "▶️ Vaayadi Petha Pulla – Kanaa", url: "https://www.youtube.com/results?search_query=Vaayadi+Petha+Pulla+Kanaa" },
+        { title: "▶️ Munbe Vaa – Sillunu Oru Kadhal", url: "https://www.youtube.com/results?search_query=Munbe+Vaa+Sillunu+Oru+Kadhal" },
+        { title: "▶️ Maacho – Mersal", url: "https://www.youtube.com/results?search_query=Maacho+Mersal" },
+        { title: "▶️ Sodakku – Thaanaa Serndha Koottam", url: "https://www.youtube.com/results?search_query=Sodakku+Thaanaa+Serndha+Koottam" },
+        { title: "▶️ Suttum Vizhi – Ghajini", url: "https://www.youtube.com/results?search_query=Suttum+Vizhi+Ghajini" },
+        { title: "▶️ Unakkenna Venum Sollu – Yennai Arindhaal", url: "https://www.youtube.com/results?search_query=Unakkenna+Venum+Sollu+Yennai+Arindhaal" },
+        { title: "▶️ Vaseegara – Minnale", url: "https://www.youtube.com/results?search_query=Vaseegara+Minnale" },   
+        { title: "▶️ Mazhaiye Mazhaiye – Eeram", url: "https://www.youtube.com/results?search_query=Mazhaiye+Mazhaiye+Eeram" } ,
+        { title: "▶️ Poovukkul – Jeans", url: "https://www.youtube.com/results?search_query=Poovukkul+Jeans" },
+        { title: "▶️ Thillana Thillana – Muthu", url: "https://www.youtube.com/results?search_query=Thillana+Thillana+Muthu" },
+      ]
+    };
+
+    function selectLanguage(lang, event) {
+      document.querySelectorAll('#langButtons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const songList = document.getElementById('songList');
+      songList.innerHTML = songs[lang].map(song => `<p><a href="${song.url}" target="_blank">${song.title}</a></p>`).join('');
+    }
+
+  </script>
+ </main>
+</body>
+</html>
