@@ -134,7 +134,11 @@ def mood_selector():
         db.session.commit()
 
         return f"{name}, you chose '{selected_mood}' Today!"
+    
+    if selected_mood == 'happy':
+            return redirect(url_for('mood_happy'))
     return render_template('Mood_selection.html', username=name)
+
 
 @app.route('/mood/happy')
 def mood_happy():
