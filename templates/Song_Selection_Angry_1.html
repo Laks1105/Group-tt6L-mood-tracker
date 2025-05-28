@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Song_Selection_Angry.css') }}">
+</head>
+<body>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h3> Track your mood daily and unlock songs, tips, and meditation just for you.</h3>
+    <h1> Music suggestion based on your mood : 😡</h1>
+
+    <div class="language-selector" id="langButtons">
+      <button class="active" onclick="selectLanguage('english', event)">English</button>
+      <button onclick="selectLanguage('malay', event)">Malay</button>
+      <button onclick="selectLanguage('chinese', event)">Chinese</button>
+      <button onclick="selectLanguage('tamil', event)">Tamil</button>
+    </div>
+
+    <div class="songs" id="songList">
+      <p><a href="https://www.youtube.com/watch?v=HOxDduXW2to" target="_blank">▶️ Justin Bieber – Bad Day</a></p>
+      <p><a href="https://www.youtube.com/watch?v=2jL_vUo7RAo" target="_blank">▶️ The Weeknd – Heartless</a></p>
+      <p><a href="https://www.youtube.com/watch?v=_Yhyp-_hX2s" target="_blank">▶️ Eminem – Lose Yourself</a></p>
+      <p><a href="https://www.youtube.com/watch?v=kXYiU_JCYtU" target="_blank">▶️ Linkin Park – Numb</a></p>
+      <p><a href="https://www.youtube.com/watch?v=bWXazVhlyxQ" target="_blank">▶️ Rage Against The Machine – Killing in the Name</a></p>
+      <p><a href="https://www.youtube.com/watch?v=0mEn3kXYx_Q" target="_blank">▶️ Three Days Grace – I Hate Everything About You</a></p>
+      <p><a href="https://www.youtube.com/watch?v=5jZ_Ju-C2dM" target="_blank">▶️ Paramore – Misery Business</a></p>
+      <p><a href="https://www.youtube.com/watch?v=CSvFpBOe8eY" target="_blank">▶️ System of a Down – Chop Suey!</a></p>
+      <p><a href="https://www.youtube.com/watch?v=7SFz9Z3f_0s" target="_blank">▶️ My Chemical Romance – Teenagers</a></p>
+      <p><a href="https://www.youtube.com/watch?v=pbMwTqkKSps" target="_blank">▶️ Billie Eilish – You Should See Me in a Crown</a></p>
+    </div>
+
+    <div class="tips">
+      <div class="tip-box">
+        <h2>Cooling Breath</h2>
+        <p>→ Roll your tongue into a tube (or just pucker your lips)
+           → Inhale through your mouth, exhale through your nose.
+           → It cools your body and mind instantly"</p>
+      </div>
+      <div class="tip-box">
+        <h2>Safe Release Visualization</h2>
+        <p>→ Imagine putting your anger into a balloon.
+           → Watch it float higher and higher until it disappears into the sky.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songs = {
+      english: [
+        { title: "▶️ Justin Bieber – Bad Day", url: "https://www.youtube.com/watch?v=HOxDduXW2to" },
+        { title: "▶️ The Weeknd – Heartless", url: "https://www.youtube.com/watch?v=2jL_vUo7RAo" },
+        { title: "▶️ Eminem – Lose Yourself", url: "https://www.youtube.com/watch?v=_Yhyp-_hX2s" },
+        { title: "▶️ Linkin Park – Numb", url: "https://www.youtube.com/watch?v=kXYiU_JCYtU" },
+        { title: "▶️ Rage Against The Machine – Killing in the Name", url: "https://www.youtube.com/watch?v=bWXazVhlyxQ" },
+        { title: "▶️ Three Days Grace – I Hate Everything About You", url: "https://www.youtube.com/watch?v=0mEn3kXYx_Q" },
+        { title: "▶️ Paramore – Misery Business", url: "https://www.youtube.com/watch?v=5jZ_Ju-C2dM" },
+        { title: "▶️ System of a Down – Chop Suey!", url: "https://www.youtube.com/watch?v=CSvFpBOe8eY" },
+        { title: "▶️ My Chemical Romance – Teenagers", url: "https://www.youtube.com/watch?v=7SFz9Z3f_0s" },
+        { title: "▶️ Billie Eilish – You Should See Me in a Crown", url: "https://www.youtube.com/watch?v=pbMwTqkKSps" },
+        
+      ],
+      malay: [
+        { title: "▶️ Sepi – Aizat Amdan", url: "https://www.youtube.com/results?search_query=Sepi+Aizat+Amdan" },
+        { title: "▶️ Hanya Rindu – Andmesh", url: "https://www.youtube.com/results?search_query=Hanya+Rindu+Andmesh" },
+        { title: "▶️ Temberang – Ayda Jebat", url: "https://www.youtube.com/results?search_query=Temberang+Ayda+Jebat" },
+        { title: "▶️ Menahan Rindu – Wany Hasrita", url: "https://www.youtube.com/results?search_query=Menahan+Rindu+Wany+Hasrita" },
+        { title: "▶️ Terlalu Istimewa – Adibah Noor", url: "https://www.youtube.com/results?search_query=Terlalu+Istimewa+Adibah+Noor" }
+      ],
+
+      chinese: [
+        { title: "▶️ 你不會懂", url: "https://youtu.be/wR6cDIk51jI?si=jMqiX8I7jgloedqO" },
+        { title: "▶️ We - 酸月亮 Sour Moon (When I Fly Towards You OST)", url: "https://youtu.be/hW30NMNW7VQ?si=6BVuJX7jpCSvRq16" },
+        { title: "▶️ I’m So Into You (The First Frost)", url: "https://youtu.be/dpAM2evUGCs?si=RjllhHxSg7qjkhQi" },
+        { title: "▶️ 以後別做朋友 The Distance of Love", url: "https://youtu.be/Ew4VvF0DPMc?si=9RWpz25YZZTSphSl" },
+        { title: "▶️ 如果雨之後 The Chaos After You", url: "https://youtu.be/gdGdO6KjF1I?si=MpdIaKhXdzBt8bJz" },
+        { title: "▶️ 終究還是因為愛 LOVE (After All, It's Because of Love)", url: "https://youtu.be/fl1Wbd-ldMQ?si=V8P8zUc63FZu5vku" },
+        { title: "▶️ 愛情教會我們的事 What Love Has Taught Us", url: "https://youtu.be/k8A3aQhOfqc?si=h3PaLjdzGXbnQwkd" },
+      ],
+
+      tamil: [
+        { title: "▶️ Neruppu Da – Kabali", url: "https://www.youtube.com/watch?v=7G_pLgHI9Gw" },
+        { title: "▶️ Surviva – Vivegam", url: "https://www.youtube.com/watch?v=1WlY9ZKGGV4" },
+        { title: "▶️ Ellam Mela Irukuravan Paathupan – Nadigar Thilagam", url: "https://www.youtube.com/watch?v=OlRr2R8A27Q" },
+        { title: "▶️ Kombu Vacha Singamda – Kadaikutty Singam", url: "https://www.youtube.com/watch?v=l_3S81nckhw" },
+        { title: "▶️ Vikram Title Track – Vikram", url: "https://www.youtube.com/watch?v=OKBMCL-frPU" },
+        { title: "▶️ Bloody Sweet – Vikram", url: "https://www.youtube.com/watch?v=CEeYtQ1i_G0" },
+        { title: "▶️ Singapenney – Bigil", url: "https://www.youtube.com/watch?v=KPhkJZkrp5M" },
+        { title: "▶️ Petta Paraak – Petta", url: "https://www.youtube.com/watch?v=v8QWnJZc0bY" },
+        { title: "▶️ Verithanam – Bigil", url: "https://www.youtube.com/watch?v=CVEuPmVAb8o" },
+        { title: "▶️ Badass – Leo", url: "https://www.youtube.com/watch?v=hRFTR6kjj7Q" },
+      ]
+
+    };
+
+    function selectLanguage(lang, event) {
+      document.querySelectorAll('#langButtons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const songList = document.getElementById('songList');
+      songList.innerHTML = songs[lang].map(song => `<p><a href="${song.url}" target="_blank">${song.title}</a></p>`).join('');
+    }
+
+  </script>
+ </main>
+</body>
+</html>
