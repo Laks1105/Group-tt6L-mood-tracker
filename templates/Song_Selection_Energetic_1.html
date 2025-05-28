@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <link rel="stylesheet" href="Song Selection Energetic.css">
+</head>
+<body>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h3> Track your mood daily and unlock songs, tips, and meditation just for you.</h3>
+    <h1> Music suggestion based on your mood : ⚡</h1>
+
+    <div class="language-selector" id="langButtons">
+      <button class="active" onclick="selectLanguage('english', event)">English</button>
+      <button onclick="selectLanguage('malay', event)">Malay</button>
+      <button onclick="selectLanguage('chinese', event)">Chinese</button>
+      <button onclick="selectLanguage('tamil', event)">Tamil</button>
+    </div>
+
+    <div class="songs" id="songList">
+      <p><a href="https://www.youtube.com/watch?v=fRh_vgS2dFE" target="_blank">▶️ Justin Bieber – Sorry</a></p>
+      <p><a href="https://www.youtube.com/watch?v=4NRXx6U8ABQ" target="_blank">▶️ The Weeknd – Blinding Lights</a></p>
+      <p><a href="https://www.youtube.com/watch?v=fKopy74weus" target="_blank">▶️ Imagine Dragons – Thunder</a></p>
+      <p><a href="https://www.youtube.com/watch?v=HgzGwKwLmgM" target="_blank">▶️ Queen – Don’t Stop Me Now</a></p>
+      <p><a href="https://www.youtube.com/watch?v=OnuuYcqhzCE" target="_blank">▶️ Linkin Park – Bleed It Out</a></p>
+      <p><a href="https://www.youtube.com/watch?v=LkIWmsP3c_s" target="_blank">▶️ Fall Out Boy – My Songs Know What You Did in the Dark</a></p>
+      <p><a href="https://www.youtube.com/watch?v=FJfFZqTlWrQ" target="_blank">▶️ P!nk – So What</a></p>
+      <p><a href="https://www.youtube.com/watch?v=JRfuAukYTKg" target="_blank">▶️ David Guetta ft. Sia – Titanium</a></p>
+      <p><a href="https://www.youtube.com/watch?v=wV1FrqwZyKw" target="_blank">▶️ Lady Gaga – Born This Way</a></p>
+      <p><a href="https://www.youtube.com/watch?v=PsO6ZnUZI0g" target="_blank">▶️ Kanye West – Stronger</a></p>
+    </div>
+
+    <div class="tips">
+      <div class="tip-box">
+        <h2>Movement Meditation</h2>
+        <p>Try walking meditation, Tai Chi, or gentle yoga before still meditation. Movement boosts circulation and energy flow.</p>
+      </div>
+      <div class="tip-box">
+        <h2>Use Breath of Fire (Kapalabhati)</h2>
+        <p>Quick, forceful exhales through the nose (inhale passively). Do for 30 seconds to 1 minute to awaken energy and clear mental fog.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songs = {
+      english: [
+        { title: "▶️ Justin Bieber – Sorry", url: "https://www.youtube.com/watch?v=fRh_vgS2dFE" },
+        { title: "▶️ The Weeknd – Blinding Lights", url: "https://www.youtube.com/watch?v=4NRXx6U8ABQ" },
+        { title: "▶️ Imagine Dragons – Thunder", url: "https://www.youtube.com/watch?v=fKopy74weus" },
+        { title: "▶️ Queen – Don’t Stop Me Now", url: "https://www.youtube.com/watch?v=HgzGwKwLmgM" },
+        { title: "▶️ Linkin Park – Bleed It Out", url: "https://www.youtube.com/watch?v=OnuuYcqhzCE" },
+        { title: "▶️ Fall Out Boy – My Songs Know What You Did in the Dark", url: "https://www.youtube.com/watch?v=LkIWmsP3c_s" },
+        { title: "▶️ P!nk – So What", url: "https://www.youtube.com/watch?v=FJfFZqTlWrQ" },
+        { title: "▶️ David Guetta ft. Sia – Titanium", url: "https://www.youtube.com/watch?v=JRfuAukYTKg" },
+        { title: "▶️ Lady Gaga – Born This Way", url: "https://www.youtube.com/watch?v=wV1FrqwZyKw" },
+        { title: "▶️ Kanye West – Stronger", url: "https://www.youtube.com/watch?v=PsO6ZnUZI0g" }
+      ],
+
+      malay: [
+        { title: "▶️ Stereotype – Kugiran Masdo", url: "https://www.youtube.com/results?search_query=Stereotype+Kugiran+Masdo" },
+        { title: "▶️ Bangun – Aman RA", url: "https://www.youtube.com/results?search_query=Bangun+Aman+RA" },
+        { title: "▶️ Obses – Aisha Retno", url: "https://www.youtube.com/results?search_query=Obses+Aisha+Retno" },
+        { title: "▶️ Nakal – Joe Flizzow ft. Malique", url: "https://www.youtube.com/results?search_query=Nakal+Joe+Flizzow+Malique" },
+        { title: "▶️ Gemuruh – Faizal Tahir", url: "https://www.youtube.com/results?search_query=Gemuruh+Faizal+Tahir" },
+        { title: "▶️ Zalikha – Floor88", url: "https://www.youtube.com/results?search_query=Zalikha+Floor88" },
+        { title: "▶️ Sudah Ku Tahu – Projector Band", url: "https://www.youtube.com/results?search_query=Sudah+Ku+Tahu+Projector+Band" },
+        { title: "▶️ Revolusi – Bunkface", url: "https://www.youtube.com/results?search_query=Revolusi+Bunkface" }
+      ],
+
+      chinese: [
+        { title: "▶️ SKAI ISYOURGOD — 八方来财·因果", url: "https://youtu.be/ZoNH1HJr0OQ?si=mLfaHocPXx2m8RQ_" },
+        { title: "▶️ 只想把你偷偷藏好 (Hidden Love OST)", url: "https://youtu.be/Nckju7t8qLI?si=NFwxHUCtS6y5gTy6" },
+        { title: "▶️ 云的味道", url: "https://youtu.be/8n4RDqO2_1g?si=aUfGwo4XNmeITFcO" },
+        { title: "▶️ 追隨光 (Falling Into Your Smile)", url: "https://youtu.be/AGgffBAPPa8?si=ptcURBmZ1TFfWTEO" },
+        { title: "▶️ 心动节奏", url: "https://youtu.be/0z_gNjScYNo?si=om6_gLA7Nf3rarYJ" },
+        { title: "▶️ 小城夏天 (Small Town Summer)", url: "https://youtu.be/8uZGBbic0a4?si=abyjVjzqmecf4zoj" },
+      ],
+
+      tamil: [
+        { title: "▶️ Vaathi Coming – Master", url: "https://www.youtube.com/watch?v=hpwnlr-ZHB0" },
+        { title: "▶️ Arabic Kuthu – Beast", url: "https://www.youtube.com/watch?v=Q7w3M7tT0Y4" },
+        { title: "▶️ Aalaporaan Tamizhan – Mersal", url: "https://www.youtube.com/watch?v=VJ3x1B5bPj8" },
+        { title: "▶️ Vathi Raid – Master", url: "https://www.youtube.com/watch?v=0yd5EE0r1nA" },
+        { title: "▶️ Mukkala Mukabala – Kadhalan", url: "https://www.youtube.com/watch?v=4uYv9b7vqNg" },
+        { title: "▶️ Why This Kolaveri Di – 3", url: "https://www.youtube.com/watch?v=YR12Z8f1Dh8" },
+        { title: "▶️ Rowdy Baby – Maari 2", url: "https://www.youtube.com/watch?v=x6QZn9xiuOE" },
+        { title: "▶️ Selfie Pulla – Kaththi", url: "https://www.youtube.com/watch?v=k4UNZ9c1tw0" },
+        { title: "▶️ Top Tucker – Sarkar", url: "https://www.youtube.com/watch?v=Z5ysbX84t54" },
+        { title: "▶️ Marana Mass – Petta", url: "https://www.youtube.com/watch?v=7sfy6Yc2YCs" }
+      ]
+
+    };
+
+    function selectLanguage(lang, event) {
+      document.querySelectorAll('#langButtons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const songList = document.getElementById('songList');
+      songList.innerHTML = songs[lang].map(song => `<p><a href="${song.url}" target="_blank">${song.title}</a></p>`).join('');
+    }
+
+  </script>
+ </main>
+</body>
+</html>
