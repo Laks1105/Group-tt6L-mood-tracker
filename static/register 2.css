@@ -79,9 +79,8 @@
   .register-form button:hover {
     background-color: #7117a5;
   }
-  
   .error-message {
-    color: rgb(197, 3, 3);
+    color: rgb(187, 4, 4);
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 10px;
