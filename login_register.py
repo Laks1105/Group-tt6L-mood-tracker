@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import sqlite3
@@ -82,7 +82,8 @@ def login():
             session['user_id'] = user[0]   
             return redirect(url_for('mood_selector'))
         else:
-            return "Invalid username or password. Please try again."
+            flash("Invalid username or password. Please try again.", "error")
+            return redirect(url_for('login'))
 
     return render_template('login.html')
 
