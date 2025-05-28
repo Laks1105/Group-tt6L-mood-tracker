@@ -145,10 +145,10 @@ def mood_selector():
             return redirect(url_for('angry_mood_opt'))
         elif selected_mood == 'Relax':
             return redirect(url_for('relax_mood_opt'))
-        #Havent complete yet (pending)
+        elif selected_mood == 'Energetic':
+            return redirect(url_for('energetic_mood_opt'))
+        #Options based on Selected mood
 
-        return f"{name}, you chose '{selected_mood}' Today!" #if the option is not there
-    
     return render_template('Mood_selection.html', username=name)
 
 #Happy Mood Selection
@@ -180,6 +180,12 @@ def angry_mood_opt():
 def relax_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Relax_1.html', username=username)
+
+#Energetic Mood Selection
+@app.route('/mood/energetic')
+def energetic_mood_opt():
+    username = session.get('username', 'Guest')
+    return render_template('Song_Selection_Energetic_1.html', username=username)
 
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
