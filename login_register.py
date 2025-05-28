@@ -82,7 +82,7 @@ def login():
             session['user_id'] = user[0]   
             return redirect(url_for('mood_selector'))
         else:
-            return render_template('login.html', error="Invalid username or password")
+            return render_template('login.html', error="Incorrect Email or password. Try again!")
 
     return render_template('login.html')
 
@@ -97,7 +97,7 @@ def register():
         confirm = request.form['confirm-password'] #confirm password
 
         if password != confirm:
-            return "Passwords did not match! Try again"
+            return render_template('register.html', error="Incorrect Password! Re-Enter the Password")
 
         try:
             with sqlite3.connect('user_id_password.db') as conn:
