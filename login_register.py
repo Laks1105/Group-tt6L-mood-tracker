@@ -76,7 +76,7 @@ def login():
             cursor.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
             user = cursor.fetchone()
 
-        #checking username and password 
+        #checking if username and password are correct 
         if user:
             session['username'] = user[1]  
             session['user_id'] = user[0]   
@@ -141,6 +141,8 @@ def mood_selector():
             return redirect(url_for('sad_mood_opt'))  #if user choose sad
         elif selected_mood == 'Stress':
             return redirect(url_for('stress_mood_opt')) #if user choose stress
+        elif selected_mood == 'Angry':
+            return redirect(url_for('angry_mood_opt'))
         #Havent complete yet (pending)
 
         return f"{name}, you chose '{selected_mood}' Today!" #if the option is not there
@@ -164,6 +166,12 @@ def sad_mood_opt():
 def stress_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Stress_1.html', username=username)
+
+#Angry Mood Selection
+@app.route('/mood/angry')
+def angry_mood_opt():
+    username = session.get('username', 'Guest')
+    return render_template('Song_Selection_Angry_1.html', username=username)
 
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
