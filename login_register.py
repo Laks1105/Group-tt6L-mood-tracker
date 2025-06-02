@@ -187,6 +187,11 @@ def energetic_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Energetic_1.html', username=username)
 
+@app.route('/graph')
+def stats():
+    mood_counts = [15, 7, 12, 9, 8, 4]  # Your mood data
+    return render_template('statistic_page_1.html', mood_counts=mood_counts)
+
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()

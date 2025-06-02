@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Statistics</title>
+  <link rel="stylesheet" href="statistic_page.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <div class="container">
+    <h1>Weekly Mood Statistics</h1>
+    <canvas id="moodChart"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('moodChart').getContext('2d');
+    const moodChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Happy', 'Sad', 'Energetic', 'Stress', 'Relaxed', 'Angry'],
+        datasets: [{
+          label: 'Mood Count (This Week)',
+          data: {{ mood_counts|tojson }}, // Static example data
+          backgroundColor: [
+            '#ff80d9', // Happy 
+            '#fcf481', // Sad 
+            '#7fe466', // Energetic 
+            '#eb6729', // Stress
+            '#4773eb', // Relaxed 
+            '#ee5757'  // Angry        
+          ],
+          borderRadius: 40
+        }]
+      },
+      options: {
+        plugins: {
+        legend: {
+          labels: {
+            boxWidth: 0 ,
+            color: '#000000',
+            font: {
+              weight: 'bold'
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              weight: 'bold'
+            },
+            color: '#000000'
+          }
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Entries',
+            font: {
+              weight: 'bold'
+             },
+             color: '#000000'
+            },
+            ticks: {
+              font: {
+                weight: 'bold'
+              },
+              color: '#000000'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
