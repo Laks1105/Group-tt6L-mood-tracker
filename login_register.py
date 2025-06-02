@@ -189,7 +189,7 @@ def energetic_mood_opt():
 
 @app.route('/graph')
 def stats():
-    mood_counts = [15, 7, 12, 9, 8, 4]  # Your mood data
+    mood_counts = [18, 9, 7, 15, 8, 3]  # Your mood data
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
 
 if __name__ == '__main__':
