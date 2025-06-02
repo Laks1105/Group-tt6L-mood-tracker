@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Mood Statistics</title>
-  <link rel="stylesheet" href="statistic_page.css">
+  <link rel="stylesheet" href="/static/statistic_page.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -16,14 +16,19 @@
   </div>
 
   <script>
+    // Get the canvas context
     const ctx = document.getElementById('moodChart').getContext('2d');
+    // Use Jinja2 to inject mood_counts into JS safely
+    const moodCounts = {{ mood_counts | tojson | safe }};
+    
+    // Create the Chart.js bar chart with data passed from Flask
     const moodChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Happy', 'Sad', 'Energetic', 'Stress', 'Relaxed', 'Angry'],
         datasets: [{
           label: 'Mood Count (This Week)',
-          data: {{ mood_counts|tojson }}, // Static example data
+          data: moodCounts,
           backgroundColor: [
             '#ff80d9', // Happy 
             '#fcf481', // Sad 
@@ -37,34 +42,34 @@
       },
       options: {
         plugins: {
-        legend: {
-          labels: {
-            boxWidth: 0 ,
-            color: '#000000',
-            font: {
-              weight: 'bold'
+          legend: {
+            labels: {
+              boxWidth: 0,
+              color: '#000000',
+              font: {
+                weight: 'bold'
+              }
             }
           }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            font: {
-              weight: 'bold'
-            },
-            color: '#000000'
-          }
         },
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Number of Entries',
-            font: {
-              weight: 'bold'
-             },
-             color: '#000000'
+        scales: {
+          x: {
+            ticks: {
+              font: {
+                weight: 'bold'
+              },
+              color: '#000000'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Number of Entries',
+              font: {
+                weight: 'bold'
+              },
+              color: '#000000'
             },
             ticks: {
               font: {
@@ -79,3 +84,4 @@
   </script>
 </body>
 </html>
+
