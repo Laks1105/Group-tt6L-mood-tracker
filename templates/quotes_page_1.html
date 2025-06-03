@@ -7,43 +7,43 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='quotes_page.css') }}">
 </head>
 <body>
-    <header>
-        <div class="menu-bar">☰</div>
-    </header>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
 
-    <main>
+  <main>
     <div class="quote-section">
-    <h2>MOTIVATIONAL QUOTES</h2>
-    <p class="subtext">Read the quotes based on your mood</p>
+      <h2>MOTIVATIONAL QUOTES</h2>
+      <p class="subtext">Read the quotes based on your mood</p>
 
-    <div class="quote-box">
-      <div class="quote-header">
-        <span class="quote-title">❝ Quotes</span>
-        <button class="shuffle-button" onclick="shuffleQuotes()">⇄ Shuffle</button>
-      </div>
+      <div class="quote-box">
+        <div class="quote-header">
+          <span class="quote-title">❝ Quotes</span>
+          <button class="shuffle-button" onclick="shuffleQuotes()">⇄ Shuffle</button>
+        </div>
 
-      <div class="highlight-box">
-        🌈 <strong>Feeling low? These quotes might be the hug your soul needs.</strong>
-      </div>
+        <div class="highlight-box">
+          🌈 <strong>Feeling low? These quotes might be the hug your soul needs.</strong>
+        </div>
 
-      <div class="quote-text" id="quoteContainer">
-       Loading Quote...
+        <div class="quote-text" id="quoteContainer">
+         Loading Quote...
+        </div>
       </div>
     </div>
-  </div>
   </main>
 
   <script>
     document.addEventListener("DOMContentLoaded", shuffleQuotes);
 
-function shuffleQuotes() {
-  fetch('/shuffle')
-    .then(response => response.json())
-    .then(data => {
-      const quoteContainer = document.getElementById('quoteContainer');
-      quoteContainer.innerHTML = data.quote;
-    });
-}
+    function shuffleQuotes() {
+      fetch('/shuffle')
+        .then(response => response.json())
+        .then(data => {
+          const quoteContainer = document.getElementById('quoteContainer');
+          quoteContainer.innerHTML = data.quote;
+        });
+    }
   </script>
 </body>
 </html>

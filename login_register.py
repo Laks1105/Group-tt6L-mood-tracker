@@ -195,17 +195,18 @@ def stats():
 
 quotes = [
     "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
-    "The best way to predict the future is to create it. -Abraham lincoln",
-    "Success isn’t about how much money you make; it’s about the difference you make in people’s lives. -Michelle Obama"
-    "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. -Christian D. Larson"
-    "Happiness is not something ready made. It comes from your own actions. -Dalai Lama"
+    "The best way to predict the future is to create it. -Abraham Lincoln",
+    "Success isn’t about how much money you make; it’s about the difference you make in people’s lives. -Michelle Obama",
+    "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. -Christian D. Larson",
+    "Happiness is not something ready made. It comes from your own actions. -Dalai Lama",
     "Success is not final, failure is not fatal: it is the courage to continue that counts. -Winston Churchill"
 ]
+
 @app.route('/')
 def index():
     return render_template('quotes_page_1.html')
 
-@app.route('/quotes')
+@app.route('/shuffle')
 def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
