@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import sqlite3
+import random
 import os
 
 app = Flask(__name__)
@@ -191,6 +192,20 @@ def energetic_mood_opt():
 def stats():
     mood_counts = [18, 9, 7, 15, 8, 3]  # Your mood data
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
+
+quotes = [
+    "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
+    "The best way to predict the future is to create it. -Abraham lincoln",
+    "Success isn’t about how much money you make; it’s about the difference you make in people’s lives. -Michelle Obama"
+    "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. -Christian D. Larson"
+    "Happiness is not something ready made. It comes from your own actions. -Dalai Lama"
+    "Success is not final, failure is not fatal: it is the courage to continue that counts. -Winston Churchill"
+]
+
+@app.route('/quotes')
+def shuffle_quote():
+    selected_quote = random.choice(quotes)
+    return jsonify({'quote': selected_quote})
 
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):

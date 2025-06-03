@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5fa;
+    background-image: url(Music\ chords2.jpeg);
+  }
+  
+  header {
+    background-color: #d3b9f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .menu-bar {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  main {
+    padding: 40px 20px;
+  }
+  
+  .quote-section {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .quote-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family:'Times New Roman', Times, serif;
+  }
+  
+  .subtext {
+    font-size: 12px;
+    color: #444;
+    margin-top: 1px;
+    text-align: center;
+  }
+  
+  .quote-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 55px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(34, 20, 41, 0.2);
+  
+  }
+  
+  .quote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    font-size: larger;
+  }
+  
+  .shuffle-button {
+    background-color: #8655da;
+    border-radius: 20px;
+    border-color: #ffffff;
+    padding: 8px;
+    font-size: 15px;
+    color: #fffdfd;
+    box-shadow: 10px 10px 20px rgba(192, 41, 212, 0.25);
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .shuffle-button:hover {
+      transform: scale(1.05);
+      background-color: #ffe571;
+      color: #574b5a;
+  }
+  
+  
+  .highlight-box {
+    background-color: #b388ff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .quote-text {
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #b54ccf;
+    border-radius: 10px;
+    box-shadow: 10px 8px 10px rgba(152, 6, 224, 0.2);
+    font-style: italic;
+    font-size: 15px;
+    font-weight: bolder;
+  }
