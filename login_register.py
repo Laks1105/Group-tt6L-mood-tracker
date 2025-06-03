@@ -202,11 +202,11 @@ quotes = [
     "Success is not final, failure is not fatal: it is the courage to continue that counts. -Winston Churchill"
 ]
 
-@app.route('/')
+@app.route('/quotes')
 def index():
     return render_template('quotes_page_1.html')
 
-@app.route('/shuffle')
+@app.route('/')
 def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
