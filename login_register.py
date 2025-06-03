@@ -201,6 +201,9 @@ quotes = [
     "Happiness is not something ready made. It comes from your own actions. -Dalai Lama"
     "Success is not final, failure is not fatal: it is the courage to continue that counts. -Winston Churchill"
 ]
+@app.route('/')
+def index():
+    return render_template('quotes_page_1.html')
 
 @app.route('/quotes')
 def shuffle_quote():
