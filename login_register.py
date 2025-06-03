@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime,timedelta
 import sqlite3
 import random
 import os
@@ -188,10 +188,33 @@ def energetic_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Energetic_1.html', username=username)
 
+# Mood statistics route
 @app.route('/graph')
 def stats():
-    mood_counts = [18, 9, 7, 15, 8, 3]  # Your mood data
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']  # Get logged-in user ID
+
+    # Weekly range
+    today = datetime.today()
+    start_of_week = today - timedelta(days=today.weekday())  # Monday
+    end_of_week = start_of_week + timedelta(days=7)
+
+    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relax', 'Angry']
+
+    mood_counts = [
+        MoodEntry.query.filter(
+            MoodEntry.user_id == user_id,
+            MoodEntry.mood == mood,
+            MoodEntry.timestamp >= start_of_week,
+            MoodEntry.timestamp < end_of_week
+        ).count()
+        for mood in moods
+    ]
+
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
+
 
 quotes = [
     "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
@@ -206,7 +229,7 @@ quotes = [
 def index():
     return render_template('quotes_page_1.html')
 
-@app.route('/')
+@app.route('/shuffle')
 def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
