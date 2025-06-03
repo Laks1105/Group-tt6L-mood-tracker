@@ -218,15 +218,29 @@ def stats():
 
 quotes = [
     "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
-    "The best way to predict the future is to create it. -Abraham Lincoln",
-    "Success isn’t about how much money you make; it’s about the difference you make in people’s lives. -Michelle Obama",
+    "I was smiling yesterday, I am smiling today and I will smile tomorrow. Simply because life is too short. -Santosh Kalwar",
+    "Any fool can be happy. It takes a man with real heart to make beauty out of the stuff that makes us happy. -Clive Barker",
+    "It always seems impossible until it’s done. – Nelson Mandela",
+    "Be the reason someone smiles today. Be the reason someone feels loved and believes that goodness still exists in people. -C. JoyBell C.",
+    "Your time is limited, so don't waste it living someone else's life. -Steve Jobs",
+    "Do what you love, love what you do, and with all your heart give yourself to it. -Roy T. Bennett",
+    "Even if you cannot change all the people around you, you can change the people you choose to be around you. -Roy T. Bennett",
+    "Start where you are. Use what you have. Do what you can. -Arthur Asher",
+    "The power of finding beauty in the humblest things makes home happy and life lovely. -Louisa May Alcott",
+    "Each day brings new opportunities, allowing you to constantly live with love — be there for others — bringing light, kindness, and purpose into every moment. -G.K. Chesterton",
+    "Life is funny. Things change, people change, but you will always be you, so stay true to yourself and embrace every twist and turn with grace and courage. -Zayn Malik",
+    "Fear doesn't shut you down; it wakes you up. I've seen it. It's fascinating. -Veronica Roth",
+    "Failure is simply the opportunity to begin again, this time more intelligently. -Henry Ford",
+    "Success is not final, failure is not fatal: it is the courage to continue that counts. -Winston Churchill",
+    "What lies behind us and what lies before us are tiny matters compared to what lies within us. – Ralph Waldo Emerson",
     "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. -Christian D. Larson",
-    "Happiness is not something ready made. It comes from your own actions. -Dalai Lama",
-    "Success is not final, failure is not fatal: it is the courage to continue that counts. -Winston Churchill"
+    "Success isn’t about how much money you make; it’s about the difference you make in people’s lives. -Michelle Obama",
+    "The best way to predict the future is to create it. -Abraham Lincoln"
 ]
 
+
 @app.route('/quotes')
-def index():
+def shuffling_quote_opt():
     return render_template('quotes_page_1.html')
 
 @app.route('/shuffle')
