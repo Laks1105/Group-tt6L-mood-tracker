@@ -6,6 +6,46 @@
   <title>Mood Selector</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='Mood_selection 2.css') }}">
 </head>
+<script>
+  // Create sidebar container
+  const sidebar = document.createElement("nav");
+  sidebar.classList.add("sidebar");
+  sidebar.innerHTML = `
+    <ul>
+      <li><a href="/Mood Selection">♫  Mood Tracker</a></li>
+      <li><a href="/Quotes Page">📖  Quotes</a></li>
+      <li><a href="/Statistics Page">📊  Statistics</a></li>
+      <li><a href="/Settings">⚙️  Settings</a></li>
+    </ul>
+    <div class="logout">
+      <a href="/logout">🚶‍♂️  Log out</a>
+    </div>
+  `;
+  document.body.appendChild(sidebar);
+
+  // Toggle sidebar on menu-bar click
+  const menuButton = document.querySelector('.menu-bar');
+  menuButton.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+  });
+
+  // Optional: Close sidebar on outside click
+  document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !menuButton.contains(e.target)) {
+      sidebar.classList.remove('active');
+    }
+  });
+
+  // Add click effect to highlight the active menu
+  sidebar.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", function () {
+      sidebar.querySelectorAll("a").forEach(a => a.classList.remove("active-link"));
+      this.classList.add("active-link");
+    });
+  });
+  src="{{ url_for('static', filename='menu_bar.js') }}"
+
+  </script>
 <body>
    <header>
     <div class="menu-bar">☰</div>
