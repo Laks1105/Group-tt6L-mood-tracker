@@ -248,6 +248,13 @@ def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
 
+#logout route 
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear all the data and login back
+    return redirect(url_for('login')) 
+
+
 @app.route('/')
 def home():
     return "Hello from Render!"
