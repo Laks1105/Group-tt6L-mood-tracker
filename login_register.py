@@ -248,6 +248,12 @@ def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
 
+@app.route('/settings')
+def settings():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    return render_template('settings_1.html')
+
 #logout route 
 @app.route('/logout')
 def logout():
