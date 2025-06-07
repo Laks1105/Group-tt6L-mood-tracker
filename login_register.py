@@ -250,8 +250,6 @@ def shuffle_quote():
 
 @app.route('/settings')
 def settings():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     return render_template('settings_1.html')
 
 #logout route 
