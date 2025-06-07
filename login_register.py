@@ -248,6 +248,10 @@ def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
 
+@app.route('/')
+def home():
+    return "Hello from Render!"
+
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()
