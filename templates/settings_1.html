@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='settings.css') }}">
+</head>
+<body>
+  <script src="{{ url_for('static', filename='menu_bar.js') }}"></script>
+    <header>
+        <div class="menu-bar">☰</div>
+    </header>
+    <main>
+    <div class="container">
+        <h1>Account Settings</h1>
+
+        <form action="/change_name" method="POST">
+            <label for="name">Change Name:</label>
+            <input type="text" name="name" id="name" required>
+            <button type="submit">Update Name</button>
+        </form>
+
+        <form action="/change_email" method="POST">
+            <label for="email">Change Email:</label>
+            <input type="email" name="email" id="email" required>
+            <button type="submit">Update Email</button>
+        </form>
+
+        <form action="/change_password" method="POST">
+            <label for="password">Change Password:</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit">Update Password</button>
+        </form>
+
+        <form action="/delete_account" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            <button type="submit" class="delete-btn">Delete Account</button>
+        </form>
+    </div>
+    <div class="about-container">
+        <h2>About Us</h2>
+        <p>
+            Welcome to our platform! We are from group TC6L - 9. We created this web app called Mood Tracker App to provide songs based on their mood and track 
+            user mood weekly. Created by Lakshme, Puvan Raj and Thulasi.
+        </p>
+    </div>
+ </main>
+</body>
+</html>

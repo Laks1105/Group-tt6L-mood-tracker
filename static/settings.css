@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: rgb(255, 255, 255);
+    background-image: url(Music_chords2.jpeg);
+  }
+  
+  header {
+    background-color: #d3b9f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .menu-bar {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  
+  .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      border: 2px;
+      box-shadow: 0 2px 30px rgba(20, 5, 20, 0.1);
+  }
+  
+  h1 {
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+      text-decoration: underline;
+  }
+  
+  form {
+      margin-bottom: 15px;
+  }
+  
+  label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #353434;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+  }
+  
+  button {
+      padding: 10px 20px;
+      background-color: #bb4bbe;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+  }
+  
+  button:hover {
+      background-color: #f7e11e;
+      transform: scale(1.05);
+      transition: transform 0.2s ease;
+  }
+  
+  .delete-btn {
+      background-color: #e53935;
+      margin-top: 10px;
+  }
+  
+  .delete-btn:hover {
+      background-color: #c62828;
+  }
+  
+  .about-container {
+      max-width: 500px;
+      margin: 20px auto;
+      background-color: #e99df0;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 10px 10px 20px rgba(78, 31, 97, 0.08);
+      font-size: 16px;
+      color: #000000;
+  }
+  
+  .about-container h2 {
+      margin-bottom: 15px;
+      color: #000000;
+      text-align: center;
+      text-decoration: underline;
+  }
+  
+  .about-container p {
+      margin-bottom: 10px;
+      font-style: italic;
+      font-weight: bold;
+  }
