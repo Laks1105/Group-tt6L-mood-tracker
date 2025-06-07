@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quotes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='quotes_page.css') }}">
+</head>
+<body>
+  <script src="{{ url_for('static', filename='menu_bar.js') }}"></script>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+
+  <main>
+    <div class="quote-section">
+      <h2>MOTIVATIONAL QUOTES</h2>
+      <p class="subtext">Read the quotes based on your mood</p>
+
+      <div class="quote-box">
+        <div class="quote-header">
+          <span class="quote-title">❝ Quotes</span>
+          <button class="shuffle-button" onclick="shuffleQuotes()">⇄ Shuffle</button>
+        </div>
+
+        <div class="highlight-box">
+          🌈 <strong>Feeling low? These quotes might be the hug your soul needs.</strong>
+        </div>
+
+        <div class="quote-text" id="quoteContainer">
+         Loading Quote...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", shuffleQuotes);
+
+    function shuffleQuotes() {
+      fetch('/shuffle')
+        .then(response => response.json())
+        .then(data => {
+          const quoteContainer = document.getElementById('quoteContainer');
+          quoteContainer.innerHTML = data.quote;
+        });
+    }
+  </script>
+</body>
+</html>

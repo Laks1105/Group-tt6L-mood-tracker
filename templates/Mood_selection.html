@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Selector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Mood_selection 2.css') }}">
+</head>
+<script src="{{ url_for('static', filename='menu_bar.js') }}"></script>
+<body>
+   <header>
+    <div class="menu-bar">☰</div>
+    <input type="text" placeholder="Search..." class="search-bar" />
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h1>How are you feeling today ?</h1>
+    <form method="POST" action="{{ url_for('mood_selector') }}">
+      <div class="mood-container">
+        <button type="submit" class="mood-button" name="mood" value="Happy">
+          <span class="emoji">😊</span><p>Happy</p>
+        </button>
+        <button type="submit" class="mood-button" name="mood" value="Sad">
+          <span class="emoji">😔</span><p>Sad</p>
+        </button>
+        <button type="submit" class="mood-button" name="mood" value="Angry">
+          <span class="emoji">😡</span><p>Angry</p>
+        </button>
+        <button type="submit" class="mood-button" name="mood" value="Relax">
+          <span class="emoji">🍃</span><p>Relax</p>
+        </button>
+        <button type="submit" class="mood-button" name="mood" value="Stress">
+          <span class="emoji">🌀</span><p>Stress</p>
+        </button>
+        <button type="submit" class="mood-button" name="mood" value="Energetic">
+          <span class="emoji">⚡</span><p>Energetic</p>
+        </button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

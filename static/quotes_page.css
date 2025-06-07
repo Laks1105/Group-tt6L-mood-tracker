@@ -1,0 +1,173 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5fa;
+    background-image: url(Music_chords2.jpeg);
+  }
+  
+  header {
+    background-color: #d3b9f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .menu-bar {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  main {
+    padding: 40px 20px;
+  }
+  
+  .quote-section {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .quote-section h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family:'Times New Roman', Times, serif;
+  }
+  
+  .subtext {
+    font-size: 12px;
+    color: #444;
+    margin-top: 1px;
+    text-align: center;
+  }
+  
+  .quote-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 55px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(34, 20, 41, 0.2);
+  
+  }
+  
+  .quote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    font-size: larger;
+  }
+  
+  .shuffle-button {
+    background-color: #8655da;
+    border-radius: 20px;
+    border-color: #ffffff;
+    padding: 8px;
+    font-size: 15px;
+    color: #fffdfd;
+    box-shadow: 10px 10px 20px rgba(192, 41, 212, 0.25);
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .shuffle-button:hover {
+      transform: scale(1.05);
+      background-color: #ffe571;
+      color: #574b5a;
+  }
+  
+  
+  .highlight-box {
+    background-color: #b388ff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .quote-text {
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #b54ccf;
+    border-radius: 10px;
+    box-shadow: 10px 8px 10px rgba(152, 6, 224, 0.2);
+    font-style: italic;
+    font-size: 15px;
+    font-weight: bolder;
+  }
+  /* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Hidden initially */
+  width: 250px;
+  height: 100%;
+  background-color: #af85e9;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  transition: left 0.5s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.sidebar ul li {
+  margin: 25px 0;
+}
+
+.sidebar ul li a,
+.sidebar .logout a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  display: block;
+  padding: 10px 20px;
+  border-radius: 15px;
+  background-color: azure;
+  box-shadow: 8px 8px 10px rgb(69, 11, 71);
+}
+
+.sidebar ul li a:hover,
+.sidebar .logout a:hover {
+  background-color: #f8f418;
+  transform: scale(1.10);
+  transition: transform 0.4s ease;
+  color: rgb(30, 12, 37);
+}
+
+.sidebar ul li a.active-link,
+.sidebar .logout a.active-link {
+  background-color: #d8bbdd; /* Example darker shade */
+  color: rgb(255, 255, 255);
+  transform: scale(1.10);
+}
+
+
+.logout {
+  margin-bottom: 30px;
+  padding: 0 20px;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Song_Selection_Relax.css') }}">
+</head>
+<body>
+  <script src="{{ url_for('static', filename='menu_bar.js') }}"></script>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h3> Track your mood daily and unlock songs, tips, and meditation just for you.</h3>
+    <h1> Music suggestion based on your mood : 🍃</h1>
+
+    <div class="language-selector" id="langButtons">
+      <button class="active" onclick="selectLanguage('english', event)">English</button>
+      <button onclick="selectLanguage('malay', event)">Malay</button>
+      <button onclick="selectLanguage('chinese', event)">Chinese</button>
+      <button onclick="selectLanguage('tamil', event)">Tamil</button>
+    </div>
+
+    <div class="songs" id="songList">
+      <p><a href="https://www.youtube.com/results?search_query=Justin+Bieber+Peaches+Acoustic" target="_blank">▶️ Justin Bieber – Peaches (Acoustic)</a></p>
+      <p><a href="https://www.youtube.com/results?search_query=The+Weeknd+After+Hours+lofi+piano" target="_blank">▶️ The Weeknd – After Hours (Lo-fi or Piano ver.)</a></p>
+      <p><a href="https://www.youtube.com/watch?v=6Graa_Vm5eA" target="_blank">▶️ Jack Johnson – Banana Pancakes</a></p>
+      <p><a href="https://www.youtube.com/watch?v=EkHTsc9PU2A" target="_blank">▶️ Jason Mraz – I’m Yours</a></p>
+      <p><a href="https://www.youtube.com/watch?v=GsPq9mzFNGY" target="_blank">▶️ James Bay – Let It Go</a></p>
+      <p><a href="https://www.youtube.com/watch?v=uJ_1HMAGb4k" target="_blank">▶️ Vance Joy – Riptide</a></p>
+      <p><a href="https://www.youtube.com/watch?v=fd02pGJx0s0" target="_blank">▶️ Norah Jones – Sunrise</a></p>
+      <p><a href="https://www.youtube.com/watch?v=kNorZlwU6cI" target="_blank">▶️ Corinne Bailey Rae – Put Your Records On</a></p>
+      <p><a href="https://www.youtube.com/watch?v=cE6wxDqdOV0" target="_blank">▶️ Lana Del Rey – Video Games</a></p>
+      <p><a href="https://www.youtube.com/watch?v=450p7goxZqg" target="_blank">▶️ John Legend – All of Me</a></p>
+    </div>
+
+    <div class="tips">
+      <div class="tip-box">
+        <h2>Evening Meditations</h2>
+        <p>Meditate before bed to clear the mind and prepare for restful sleep. A 10-minute session can make your sleep deeper and more restorative.</p>
+      </div>
+      <div class="tip-box">
+        <h2>Practice Deep Breathing</h2>
+        <p>Try the 4-7-8 technique: Inhale for 4 seconds, hold for 7, exhale for 8. This calms the nervous system quickly.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songs = {
+      english: [
+        {"title": "▶️ Justin Bieber – Peaches (Acoustic)", "url": "https://www.youtube.com/results?search_query=Justin+Bieber+Peaches+Acoustic"},
+        {"title": "▶️ The Weeknd – After Hours (Lo-fi or Piano ver.)", "url": "https://www.youtube.com/results?search_query=The+Weeknd+After+Hours+lofi+piano"},
+        {"title": "▶️ Jack Johnson – Banana Pancakes", "url": "https://www.youtube.com/watch?v=6Graa_Vm5eA"},
+        {"title": "▶️ Jason Mraz – I’m Yours", "url": "https://www.youtube.com/watch?v=EkHTsc9PU2A"},
+        {"title": "▶️ James Bay – Let It Go", "url": "https://www.youtube.com/watch?v=GsPq9mzFNGY"},
+        {"title": "▶️ Vance Joy – Riptide", "url": "https://www.youtube.com/watch?v=uJ_1HMAGb4k"},
+        {"title": "▶️ Norah Jones – Sunrise", "url": "https://www.youtube.com/watch?v=fd02pGJx0s0"},
+        {"title": "▶️ Corinne Bailey Rae – Put Your Records On", "url": "https://www.youtube.com/watch?v=kNorZlwU6cI"},
+        {"title": "▶️ Lana Del Rey – Video Games", "url": "https://www.youtube.com/watch?v=cE6wxDqdOV0"},
+        {"title": "▶️ John Legend – All of Me", "url": "https://www.youtube.com/watch?v=450p7goxZqg"},
+      ],
+
+      malay: [
+        { title: "▶️ Casablanca – Nuha Bahrin & Naufal Azrin", url: "https://www.youtube.com/results?search_query=Casablanca+Nuha+Bahrin+Naufal+Azrin" },
+        { title: "▶️ Permata Cinta – Aiman Tino", url: "https://www.youtube.com/results?search_query=Permata+Cinta+Aiman+Tino" },
+        { title: "▶️ Bunga – Altimet", url: "https://www.youtube.com/results?search_query=Bunga+Altimet" },
+        { title: "▶️ Bahagia – Sharul Kamal", url: "https://www.youtube.com/results?search_query=Bahagia+Sharul+Kamal" },
+        { title: "▶️ Kisah Cinta Kita – Hafiz Suip", url: "https://www.youtube.com/results?search_query=Kisah+Cinta+Kita+Hafiz+Suip" },
+        { title: "▶️ Aku Cinta Padamu – Siti Nurhaliza", url: "https://www.youtube.com/results?search_query=Aku+Cinta+Padamu+Siti+Nurhaliza" },
+        { title: "▶️ Peluang Kedua – Nabila Razali", url: "https://www.youtube.com/results?search_query=Peluang+Kedua+Nabila+Razali" }
+        
+      ],
+      chinese: [
+        { title: "▶️ 理想混蛋 Bestards", url: "https://youtu.be/3hLESh77fSg?si=Z87ci4LNYr4i4Ekq" },
+        { title: "▶️ 如果可以 Red Scarf", url: "https://youtu.be/8MG--WuNW1Y?si=oALhjQN_IFIKJLCP" },
+        { title: "▶️ Forever Star (Hidden love)", url: "https://youtu.be/-bmzHdkcTJ4?si=YwPVK9g3lQra0O3I" },
+        { title: "▶️ 我想我会 i think i will (when I fly towards you OST)", url: "https://youtu.be/pZdMD_iqEUE?si=yeAFcImriQxMFYqX" },
+        { title: "▶️ Like Sunny Days, Like Rainy Days 像晴天像雨天", url: "https://youtu.be/flBsWg14Rgc?si=H1Epo245udKEEAcT" },
+        { title: "▶️ 最偉大的作品 (Greatest Works of Art)", url: "https://youtu.be/1emA1EFsPMM?si=mDMPJlbY87Nrb4ko" }
+      ],
+
+      tamil: [
+        { title: "▶️ Suttrum Vizhi Sudare – Ghajini", url: "https://www.youtube.com/results?search_query=Suttrum+Vizhi+Sudare+Ghajini" },
+        { title: "▶️ Vaseegara – Minnale", url: "https://www.youtube.com/results?search_query=Vaseegara+Minnale" },
+        { title: "▶️ Engeyum Kadhal – Engeyum Kadhal", url: "https://www.youtube.com/results?search_query=Engeyum+Kadhal+Engeyum+Kadhal" },
+        { title: "▶️ Pudhu Metro Rail – Saami 2", url: "https://www.youtube.com/results?search_query=Pudhu+Metro+Rail+Saami+2" },
+        { title: "▶️ Pudhu Vellai Mazhai – Roja", url: "https://www.youtube.com/results?search_query=Pudhu+Vellai+Mazhai+Roja" },
+        { title: "▶️ Thuli Thuli – Paiya", url: "https://www.youtube.com/results?search_query=Thuli+Thuli+Paiya" },
+        { title: "▶️ Vennilave Vennilave – Minsara Kanavu", url: "https://www.youtube.com/results?search_query=Vennilave+Vennilave+Minsara+Kanavu" },
+        { title: "▶️ Yethi Yethi – Vaaranam Aayiram", url: "https://www.youtube.com/results?search_query=Yethi+Yethi+Vaaranam+Aayiram" },
+        { title: "▶️ Pothavillaye – Mudinja Ivana Pudi", url: "https://www.youtube.com/results?search_query=Pothavillaye+Mudinja+Ivana+Pudi" },
+      ]
+
+    };
+
+    function selectLanguage(lang, event) {
+      document.querySelectorAll('#langButtons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const songList = document.getElementById('songList');
+      songList.innerHTML = songs[lang].map(song => `<p><a href="${song.url}" target="_blank">${song.title}</a></p>`).join('');
+    }
+
+  </script>
+ </main>
+</body>
+</html>

@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #ffffff;
+    color: #000;
+    background-image: url(Music_chords2.jpeg);
+  }
+  
+  /* Header */
+  header {
+    background-color: #d3b9f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  
+  header {
+    background-color: #d3b9f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .menu-bar {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .search-bar {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Main Content */
+  main {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .welcome-text {
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+  
+  .username {
+    color: purple;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  }
+  
+  h1 {
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  /* Mood Buttons */
+  .mood-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    gap: 50px;
+    max-width: 600px;
+    margin: 40px auto 0;
+    margin-top: 70px;
+  }
+  
+  .mood-button {
+    background-color:  #c4a3f1;
+    border: 2px solid #000;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mood-button:hover {
+    transform: scale(1.05);
+    background-color: #9862e9;
+  }
+  
+  .emoji {
+    font-size:30px;
+    margin-bottom: 10px;
+  }
+
+  /* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Hidden initially */
+  width: 250px;
+  height: 100%;
+  background-color: #af85e9;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  transition: left 0.5s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.sidebar ul li {
+  margin: 25px 0;
+}
+
+.sidebar ul li a,
+.sidebar .logout a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  display: block;
+  padding: 10px 20px;
+  border-radius: 15px;
+  background-color: azure;
+  box-shadow: 8px 8px 10px rgb(69, 11, 71);
+}
+
+.sidebar ul li a:hover,
+.sidebar .logout a:hover {
+  background-color: #f8f418;
+  transform: scale(1.10);
+  transition: transform 0.4s ease;
+  color: rgb(30, 12, 37);
+}
+
+.sidebar ul li a.active-link,
+.sidebar .logout a.active-link {
+  background-color: #d8bbdd; /* Example darker shade */
+  color: rgb(255, 255, 255);
+  transform: scale(1.10);
+}
+
+
+.logout {
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+  

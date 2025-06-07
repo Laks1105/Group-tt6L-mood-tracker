@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Song_Selection_Stress.css') }}">
+</head>
+<body>
+  <script src="{{ url_for('static', filename='menu_bar.js') }}"></script>
+  <header>
+    <div class="menu-bar">☰</div>
+  </header>
+  <main>
+    <p class="welcome-text">Welcome, <span class="username">{{ username }} 👋🏻</span></p>
+    <h3> Track your mood daily and unlock songs, tips, and meditation just for you.</h3>
+    <h1> Music suggestion based on your mood : 🌀</h1>
+
+    <div class="language-selector" id="langButtons">
+      <button class="active" onclick="selectLanguage('english', event)">English</button>
+      <button onclick="selectLanguage('malay', event)">Malay</button>
+      <button onclick="selectLanguage('chinese', event)">Chinese</button>
+      <button onclick="selectLanguage('tamil', event)">Tamil</button>
+    </div>
+
+    <div class="songs" id="songList">
+     <p><a href="https://www.youtube.com/watch?v=oyEuk8j8imI" target="_blank">▶️ Justin Bieber – Off My Face</a></p>
+     <p><a href="https://www.youtube.com/watch?v=KpA18EULz-w" target="_blank">▶️ The Weeknd – Die for You (Acoustic)</a></p>
+     <p><a href="https://www.youtube.com/watch?v=tO4dxvguQDk" target="_blank">▶️ Norah Jones – Don’t Know Why</a></p>
+     <p><a href="https://vimeo.com/27307766" target="_blank">▶️ Bon Iver – Holocene</a></p>
+     <p><a href="https://www.youtube.com/watch?v=7VBex8zbDRs" target="_blank">▶️ John Mayer – Gravity</a></p>
+     <p><a href="https://www.youtube.com/watch?v=h3pJZSTQqIg" target="_blank">▶️ Coldplay – Strawberry Swing</a></p>
+     <p><a href="https://www.youtube.com/watch?v=UNz-oWwYhKY" target="_blank">▶️ Ed Sheeran – Photograph</a></p>
+     <p><a href="https://www.youtube.com/watch?v=N0CP9zpbmAQ" target="_blank">▶️ Sufjan Stevens – Mystery of Love</a></p>
+     <p><a href="https://www.youtube.com/watch?v=WM7-PYtXtJM" target="_blank">▶️ Fleetwood Mac – Landslide</a></p>
+     <p><a href="https://www.youtube.com/watch?v=5WTl93TlbE8" target="_blank">▶️ Angus & Julia Stone – Chateau</a></p>
+
+    </div>
+
+    <div class="tips">
+      <div class="tip-box">
+        <h2>Box Breathing (Super Effective!)</h2>
+        <p>→ Inhale 4 counts → Hold 4 counts → Exhale 4 counts → Hold 4 counts.
+           → Repeat for 2–5 minutes."</p>
+      </div>
+
+      <div class="tip-box">
+        <h2>Body Scan Relaxation</h2>
+        <p>Starting from your forehead, "mentally scan" down your body. Every body part you "scan," tell it to "relax."</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songs = {
+      english: [
+        { title: "▶️ Justin Bieber – Off My Face", url: "https://www.youtube.com/watch?v=AeZxDcjXbzE" },
+        { title: "▶️ The Weeknd – Die for You (Acoustic)", url: "https://www.youtube.com/watch?v=KpA18EULz-w" },
+        { title: "▶️ Norah Jones – Don’t Know Why", url: "https://www.youtube.com/watch?v=tO4dxvguQDk" },
+        { title: "▶️ Bon Iver – Holocene", url: "https://vimeo.com/27307766" },  // Vimeo official
+        { title: "▶️ John Mayer – Gravity", url: "https://www.youtube.com/watch?v=7VBex8zbDRs" },
+        { title: "▶️ Coldplay – Strawberry Swing", url: "https://www.youtube.com/watch?v=h3pJZSTQqIg" },
+        { title: "▶️ Ed Sheeran – Photograph", url: "https://www.youtube.com/watch?v=UNz-oWwYhKY" },
+        { title: "▶️ Sufjan Stevens – Mystery of Love", url: "https://www.youtube.com/watch?v=N0CP9zpbmAQ" },
+        { title: "▶️ Fleetwood Mac – Landslide", url: "https://www.youtube.com/watch?v=WM7-PYtXtJM" },
+        { title: "▶️ Angus & Julia Stone – Chateau", url: "https://www.youtube.com/watch?v=5WTl93TlbE8" },
+    
+     ],
+
+      malay: [
+        { title: "▶️ Sepi – Aizat Amdan", url: "https://www.youtube.com/results?search_query=Sepi+Aizat+Amdan" },
+        { title: "▶️ Hanya Rindu – Andmesh", url: "https://www.youtube.com/results?search_query=Hanya+Rindu+Andmesh" },
+        { title: "▶️ Temberang – Ayda Jebat", url: "https://www.youtube.com/results?search_query=Temberang+Ayda+Jebat" },
+        { title: "▶️ Menahan Rindu – Wany Hasrita", url: "https://www.youtube.com/results?search_query=Menahan+Rindu+Wany+Hasrita" },
+        { title: "▶️ Terlalu Istimewa – Adibah Noor", url: "https://www.youtube.com/results?search_query=Terlalu+Istimewa+Adibah+Noor" }       
+      ],
+
+      chinese: [
+        { title: "▶️ 你不會懂", url: "https://youtu.be/wR6cDIk51jI?si=jMqiX8I7jgloedqO" },
+        { title: "▶️ We - 酸月亮 Sour Moon (When I Fly Towards You OST)", url: "https://youtu.be/hW30NMNW7VQ?si=6BVuJX7jpCSvRq16" },
+        { title: "▶️ I’m So Into You (The First Frost)", url: "https://youtu.be/dpAM2evUGCs?si=RjllhHxSg7qjkhQi" },
+        { title: "▶️ 以後別做朋友 The Distance of Love", url: "https://youtu.be/Ew4VvF0DPMc?si=9RWpz25YZZTSphSl" },
+        { title: "▶️ 如果雨之後 The Chaos After You", url: "https://youtu.be/gdGdO6KjF1I?si=MpdIaKhXdzBt8bJz" },
+        { title: "▶️ 終究還是因為愛 LOVE (After All, It's Because of Love)", url: "https://youtu.be/fl1Wbd-ldMQ?si=V8P8zUc63FZu5vku" },
+        { title: "▶️ 愛情教會我們的事 What Love Has Taught Us", url: "https://youtu.be/k8A3aQhOfqc?si=h3PaLjdzGXbnQwkd" },
+      ],
+      
+      tamil: [
+        { title: "▶️ Kannalanae – Bombay", url: "https://www.youtube.com/watch?v=EY4lOJ822NI" },
+        { title: "▶️ Kadhal Rojave – Roja", url: "https://www.youtube.com/watch?v=Urr36-p9e5s" },
+        { title: "▶️ Vennilave Vennilave – Minsara Kanavu", url: "https://www.youtube.com/watch?v=3TVvRETczto" },
+        { title: "▶️ Aaromale – Vinnaithaandi Varuvaayaa", url: "https://www.youtube.com/watch?v=RKDeCeXfWqA" },
+        { title: "▶️ The Life of Ram – 96", url: "https://www.youtube.com/watch?v=6LD30ChPsSs" },
+        { title: "▶️ Uyirin Uyire – Kaakha Kaakha", url: "https://www.youtube.com/watch?v=yul_JVWKgZE" },
+        { title: "▶️ Oru Deivam Thantha Poove – Kannathil Muthamittal", url: "https://www.youtube.com/watch?v=ByjOJ7O9PTE" },
+        { title: "▶️ Vaan Varuvaan – Kaatru Veliyidai", url: "https://www.youtube.com/watch?v=ejAIme929MI" },
+        { title: "▶️ New York Nagaram – Sillunu Oru Kadhal", url: "https://www.youtube.com/watch?v=dFyLEkVpzWI" },
+        { title: "▶️ Ninaithu Ninaithu Parthen – 7G Rainbow Colony", url: "https://www.youtube.com/watch?v=6XWjjDd5q1s" },
+      ],
+    };
+
+    function selectLanguage(lang, event) {
+      document.querySelectorAll('#langButtons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const songList = document.getElementById('songList');
+      songList.innerHTML = songs[lang].map(song => `<p><a href="${song.url}" target="_blank">${song.title}</a></p>`).join('');
+    }
+
+  </script>
+ </main>
+</body>
+</html>
