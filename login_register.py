@@ -5,7 +5,7 @@ import sqlite3
 import random
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 import logging
 from logging import StreamHandler
