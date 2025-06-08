@@ -2,12 +2,18 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta
 import sqlite3
-import logging
-from logging import StreamHandler
 import random
 import os
 
 app = Flask(__name__)
+
+import logging
+from logging import StreamHandler
+
+handler = StreamHandler()
+handler.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
@@ -270,11 +276,6 @@ def settings():
 def logout():
     session.clear()  # Clear all the data and login back
     return redirect(url_for('login')) 
-
-handler = StreamHandler()
-handler.setLevel(logging.DEBUG)
-app.logger.addHandler(handler)
-app.logger.setLevel(logging.DEBUG)
 
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
