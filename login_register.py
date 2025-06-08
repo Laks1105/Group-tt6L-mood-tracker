@@ -92,25 +92,41 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name'] #ask name
-        email = request.form['email'] #ask email
-        password = request.form['password'] #ask password
-        confirm = request.form['confirm-password'] #confirm password
-
-        if password != confirm:
-            return render_template('register.html', error="Incorrect Password! Re-Enter the Password")
-
         try:
+            name = request.form['name'] #ask user for name
+            email = request.form['email'] #ask user for email id
+            password = request.form['password'] #ask user for password
+            confirm = request.form['confirm-password'] # confirming the password
+
+            if password != confirm:
+                return render_template('register.html', error="Passwords do not match.")
+
+            # Attempt DB insert
             with sqlite3.connect('user_id_password.db') as conn:
                 cursor = conn.cursor()
-                cursor.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                               (name, email, password))
+                cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS users (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        email TEXT UNIQUE NOT NULL,
+                        password TEXT NOT NULL
+                    )
+                ''')
+                cursor.execute(
+                    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                    (name, email, password)
+                )
                 conn.commit()
+
             return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
-            return "Email already registered."
+
+        except Exception as e:
+            # Print the actual error to logs
+            print("ERROR DURING REGISTER:", e)
+            return f"Internal error: {e}", 500
 
     return render_template('register.html')
+
 
 # View all users 
 @app.route('/users')
@@ -259,11 +275,9 @@ def logout():
     return redirect(url_for('login')) 
 
 
-@app.route('/')
-def home():
-    return "Hello from Render!"
-
-if __name__ == '__main__':
+if __name__ == '_main_':
     if not os.path.exists('user_id_password.db'):
         init_db()
+        port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
     app.run(debug=True)
