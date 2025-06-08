@@ -277,6 +277,12 @@ def logout():
     session.clear()  # Clear all the data and login back
     return redirect(url_for('login')) 
 
+@app.route('/check_templates')
+def check_templates():
+    path = os.path.join(app.root_path, 'templates', 'register.html')
+    exists = os.path.exists(path)
+    return f"register.html exists: {exists} at {path}"
+
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
         init_db()
