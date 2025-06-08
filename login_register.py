@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta
 import sqlite3
+import logging
+from logging import StreamHandler
 import random
 import os
 
@@ -101,17 +103,11 @@ def register():
             if password != confirm:
                 return render_template('register.html', error="Passwords do not match.")
 
-            # Attempt DB insert
+            if not os.path.exists('user_id_password.db'):
+                init_db()
+
             with sqlite3.connect('user_id_password.db') as conn:
                 cursor = conn.cursor()
-                cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS users (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        name TEXT NOT NULL,
-                        email TEXT UNIQUE NOT NULL,
-                        password TEXT NOT NULL
-                    )
-                ''')
                 cursor.execute(
                     "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
                     (name, email, password)
@@ -121,11 +117,12 @@ def register():
             return redirect(url_for('login'))
 
         except Exception as e:
-            # Print the actual error to logs
-            print("ERROR DURING REGISTER:", e)
-            return f"Internal error: {e}", 500
+            # This will output the exact error in your Render logs:
+            print("🛑 Registration Error:", repr(e))
+            return f"Internal error during registration: {e}", 500
 
     return render_template('register.html')
+
 
 
 # View all users 
@@ -274,10 +271,14 @@ def logout():
     session.clear()  # Clear all the data and login back
     return redirect(url_for('login')) 
 
+handler = StreamHandler()
+handler.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
 
-if __name__ == '_main_':
+if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
         init_db()
-        port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
-    app.run(debug=True)
+
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port, debug=True) 
