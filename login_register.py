@@ -127,7 +127,7 @@ def register():
             print("🛑 Registration Error:", repr(e))
             return f"Internal error during registration: {e}", 500
 
-    return render_template('register.html')
+    return render_template('Register.html')
 
 
 
