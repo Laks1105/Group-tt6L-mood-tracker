@@ -92,29 +92,34 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name']  # ask user for name
-        email = request.form['email']  # ask user for email id
-        password = request.form['password']  # ask user for password
-        confirm = request.form['confirm-password']  # confirming the password
+        try:
+            name = request.form['name'] #ask user for name
+            email = request.form['email'] #ask user for email id
+            password = request.form['password'] #ask user for password
+            confirm = request.form['confirm-password'] # confirming the password
 
-        if password != confirm:
-            return render_template('Register.html', error="Passwords do not match.")
+            if password != confirm:
+                return render_template('register.html', error="Passwords do not match.")
 
-        if not os.path.exists('user_id_password.db'):
-            init_db()
+            if not os.path.exists('user_id_password.db'):
+                init_db()
 
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                (name, email, password)
-            )
-            conn.commit()
+            with sqlite3.connect('user_id_password.db') as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                    (name, email, password)
+                )
+                conn.commit()
 
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
+
+        except Exception as e:
+            # This will output the exact error in your Render logs:
+            print("🛑 Registration Error:", repr(e))
+            return f"Internal error during registration: {e}", 500
 
     return render_template('Register.html')
-
 
 
 
@@ -221,7 +226,7 @@ def stats():
 
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
 
-# list of quotes
+
 quotes = [
     "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
     "I was smiling yesterday, I am smiling today and I will smile tomorrow. Simply because life is too short. -Santosh Kalwar",
@@ -261,12 +266,18 @@ def settings():
 #logout route 
 @app.route('/logout')
 def logout():
-    session.clear()  # Clearing all the data and the user login back
+    session.clear()  # Clear all the data and login back
     return redirect(url_for('login')) 
 
-if __name__ == '__main__':
+@app.route('/check_templates')
+def check_templates():
+    path = os.path.join(app.root_path, 'templates', 'register.html')
+    exists = os.path.exists(path)
+    return f"register.html exists: {exists} at {path}"
+
+if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
         init_db()
-    
+
     port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True) 
