@@ -212,26 +212,34 @@ def stats():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    user_id = session['user_id']  # Get logged-in user ID
+    user_id = session['user_id']
 
-    # Weekly range
+    # Weekly range (Monday to Sunday)
     today = datetime.today()
-    start_of_week = today - timedelta(days=today.weekday())  # Monday
+    start_of_week = today - timedelta(days=today.weekday())
     end_of_week = start_of_week + timedelta(days=7)
 
-    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relax', 'Angry']
+    # Print for debug
+    print(f"Start of week: {start_of_week}")
+    print(f"End of week: {end_of_week}")
 
-    mood_counts = [
-        MoodEntry.query.filter(
+    # List of expected mood values (exact matches)
+    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relaxed', 'Angry']  # fixed spelling from Relax to Relaxed
+
+    # Get mood counts (case-insensitive match, strip prefixes if needed)
+    mood_counts = []
+    for mood in moods:
+        count = MoodEntry.query.filter(
             MoodEntry.user_id == user_id,
-            MoodEntry.mood == mood,
+            MoodEntry.mood.ilike(f"%{mood}%"),  # allows partial matches like "AHappy"
             MoodEntry.timestamp >= start_of_week,
             MoodEntry.timestamp < end_of_week
         ).count()
-        for mood in moods
-    ]
+        print(f"{mood}: {count}")  # debug output
+        mood_counts.append(count)
 
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
+
 
 
 quotes = [

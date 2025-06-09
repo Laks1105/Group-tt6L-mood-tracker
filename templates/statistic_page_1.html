@@ -11,19 +11,19 @@
   <header>
     <div class="menu-bar">☰</div>
   </header>
+
   <div class="container">
     <h1>Weekly Mood Statistics</h1>
     <canvas id="moodChart"></canvas>
   </div>
 
+  <!-- Debug output -->
   <script>
-    // Get the canvas context
-    const ctx = document.getElementById('moodChart').getContext('2d');
-    // Use Jinja2 to inject mood_counts into JS safely
     const moodCounts = {{ mood_counts | tojson | safe }};
-    
-    // Create the Chart.js bar chart with data passed from Flask
-    const moodChart = new Chart(ctx, {
+    console.log("Mood Counts:", moodCounts);
+
+    const ctx = document.getElementById('moodChart').getContext('2d');
+    new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Happy', 'Sad', 'Energetic', 'Stress', 'Relaxed', 'Angry'],
@@ -31,12 +31,7 @@
           label: 'Mood Count (This Week)',
           data: moodCounts,
           backgroundColor: [
-            '#ff80d9', // Happy 
-            '#fcf481', // Sad 
-            '#7fe466', // Energetic 
-            '#eb6729', // Stress
-            '#4773eb', // Relaxed 
-            '#ee5757'  // Angry        
+            '#ff80d9', '#fcf481', '#7fe466', '#eb6729', '#4773eb', '#ee5757'
           ],
           borderRadius: 40
         }]
@@ -47,18 +42,14 @@
             labels: {
               boxWidth: 0,
               color: '#000000',
-              font: {
-                weight: 'bold'
-              }
+              font: { weight: 'bold' }
             }
           }
         },
         scales: {
           x: {
             ticks: {
-              font: {
-                weight: 'bold'
-              },
+              font: { weight: 'bold' },
               color: '#000000'
             }
           },
@@ -67,15 +58,11 @@
             title: {
               display: true,
               text: 'Number of Entries',
-              font: {
-                weight: 'bold'
-              },
+              font: { weight: 'bold' },
               color: '#000000'
             },
             ticks: {
-              font: {
-                weight: 'bold'
-              },
+              font: { weight: 'bold' },
               color: '#000000'
             }
           }
@@ -85,4 +72,5 @@
   </script>
 </body>
 </html>
+
 
