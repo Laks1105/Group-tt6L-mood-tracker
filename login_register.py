@@ -1,48 +1,39 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 import sqlite3
 import random
 import os
 
-app = Flask(__name__, template_folder='templates')
-
+app = Flask(__name__)
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mood_tracker.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Installing the database
 db = SQLAlchemy(app)
 
-
-# User Model
+# Your models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)  
-    password = db.Column(db.String(128), nullable=False)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)  # <-- Added email column
+    password = db.Column(db.String(150), nullable=False)
+    mood_entries = db.relationship('MoodEntry', backref='user', lazy=True)
 
-# Mood Entry Model
 class MoodEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     mood = db.Column(db.String(50), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Create tables
-with app.app_context():
-    db.create_all()
-
-
-
 # Create the database and tables
 with app.app_context():
     db.create_all()
-
 
 def init_db():
     try:
@@ -67,17 +58,15 @@ def init_db():
         print("Corrupted DB found. Deleted and recreating.")
         init_db()
 
-# route for Home page to login page
 @app.route('/')
 def homepage():
     return redirect(url_for('login'))
 
-# route for Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['Email'] #the user inserting username
-        password = request.form['password'] #the user nserting password
+        email = request.form['Email']
+        password = request.form['password']
 
         # Authenticate user
         with sqlite3.connect('user_id_password.db') as conn:
@@ -85,37 +74,40 @@ def login():
             cursor.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
             user = cursor.fetchone()
 
-        #checking if username and password are correct 
         if user:
-            session['username'] = user[1]  
-            session['user_id'] = user[0]   
-            return redirect(url_for('mood_selector'))
+            session['username'] = user[1] # check username in database
+            session['user_id'] = user[0] #checking password
+            return redirect(url_for('mood_selector')) # move to mood selection page
         else:
-            return render_template('login.html', error="Incorrect Email or password. Try again!")
+            return render_template('login.html', error="Incorrect Email or password. Try again!") #if not it wont let the user to move to the next page
 
     return render_template('login.html')
 
-
-# Route for Register page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name'] #asking user for username
-        email = request.form['email'] #asking user's email ID
-        password = request.form['password'] #asking user for password (can be anything)
-        confirm = request.form['confirm-password'] # confirming the password
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        confirm = request.form['confirm-password']
 
         if password != confirm:
             return render_template('Register.html', error="Passwords do not match.")
 
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            return render_template('Register.html', error="Email is already registered.")
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
 
-        new_user = User(name=name, email=email, password=password)
-        db.session.add(new_user)
-        db.session.commit()
-        
+            # Check if email already exists
+            cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+            existing_user = cursor.fetchone()
+
+            if existing_user:
+                return render_template('Register.html', error="Email is already registered.")
+
+            # Insert new user
+            cursor.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password))
+            conn.commit()
+
         return redirect(url_for('login'))
 
     return render_template('Register.html')

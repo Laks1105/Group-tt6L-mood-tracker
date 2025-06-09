@@ -43,4 +43,67 @@
   canvas {
     max-width: 100%;
   }
+
+  /* Sidebar styles */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hidden initially */
+    width: 250px;
+    height: 100%;
+    background-color: #af85e9;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    transition: left 0.5s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   
+  .sidebar.active {
+    left: 0;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 20px;
+    margin-top: 30px;
+  }
+  
+  .sidebar ul li {
+    margin: 25px 0;
+  }
+  
+  .sidebar ul li a,
+  .sidebar .logout a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    display: block;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: azure;
+    box-shadow: 8px 8px 10px rgb(69, 11, 71);
+  }
+  
+  .sidebar ul li a:hover,
+  .sidebar .logout a:hover {
+    background-color: #f8f418;
+    transform: scale(1.10);
+    transition: transform 0.4s ease;
+    color: rgb(30, 12, 37);
+  }
+  
+  .sidebar ul li a.active-link,
+  .sidebar .logout a.active-link {
+    background-color: #d8bbdd; /* Example darker shade */
+    color: rgb(255, 255, 255);
+    transform: scale(1.10);
+  }
+  
+  
+  .logout {
+    margin-bottom: 30px;
+    padding: 0 20px;
+  }
