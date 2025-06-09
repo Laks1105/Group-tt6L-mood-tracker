@@ -7,6 +7,14 @@ import os
 
 app = Flask(__name__, template_folder='templates')
 
+import logging
+from logging import StreamHandler
+
+handler = StreamHandler()
+handler.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
+
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
 
@@ -269,10 +277,15 @@ def logout():
     session.clear()  # Clear all the data and login back
     return redirect(url_for('login')) 
 
+@app.route('/check_templates')
+def check_templates():
+    path = os.path.join(app.root_path, 'templates', 'register.html')
+    exists = os.path.exists(path)
+    return f"register.html exists: {exists} at {path}"
+
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
         init_db()
-        
 
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port, debug=True) 
