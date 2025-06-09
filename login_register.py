@@ -22,9 +22,9 @@ db = SQLAlchemy(app)
 # User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
-    mood_entries = db.relationship('MoodEntry', backref='user', lazy=True)
+    username = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)  
+    password = db.Column(db.String(128), nullable=False)
 
 # Mood Entry Model
 class MoodEntry(db.Model):
@@ -36,6 +36,7 @@ class MoodEntry(db.Model):
 # Create tables
 with app.app_context():
     db.create_all()
+
 
 
 # Create the database and tables
