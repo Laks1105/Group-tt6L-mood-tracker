@@ -5,7 +5,7 @@ import sqlite3
 import random
 import os
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
@@ -20,8 +20,7 @@ db = SQLAlchemy(app)
 # User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
+    username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     mood_entries = db.relationship('MoodEntry', backref='user', lazy=True)
 
@@ -38,33 +37,27 @@ with app.app_context():
 
 
 def init_db():
-    if os.path.exists('user_id_password.db'):
-        try:
-            with sqlite3.connect('user_id_password.db') as conn:
-                cursor = conn.cursor()
-                cursor.execute("PRAGMA integrity_check")
-                result = cursor.fetchone()
-                if result[0] != "ok":
-                    print("Corrupt DB found. Deleting.")
-                    os.remove('user_id_password.db')
-        except sqlite3.DatabaseError:
-            print("Database error on integrity check. Deleting DB.")
-            os.remove('user_id_password.db')
+    try:
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("PRAGMA integrity_check")
+            result = cursor.fetchone()
+            if result[0] != "ok":
+                raise sqlite3.DatabaseError("Corrupt database")
 
-    # Create a new DB and table if not exists
-    with sqlite3.connect('user_id_password.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL
-            )
-        ''')
-        conn.commit()
-        print("Database initialized or already exists.")
-
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL
+                )
+            ''')
+            print("Database and users table checked/created successfully.")
+    except sqlite3.DatabaseError:
+        os.remove('user_id_password.db')
+        print("Corrupted DB found. Deleted and recreating.")
+        init_db()
 
 # route for Home page to login page
 @app.route('/')
@@ -99,36 +92,25 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        name = request.form['name'] #ask name
+        email = request.form['email'] #ask email
+        password = request.form['password'] #ask password
+        confirm = request.form['confirm-password'] #confirm password
+
+        if password != confirm:
+            return render_template('register.html', error="Incorrect Password! Re-Enter the Password")
+
         try:
-            name = request.form['name'] #ask user for name
-            email = request.form['email'] #ask user for email id
-            password = request.form['password'] #ask user for password
-            confirm = request.form['confirm-password'] # confirming the password
-
-            if password != confirm:
-                return render_template('register.html', error="Passwords do not match.")
-
-            if not os.path.exists('user_id_password.db'):
-                init_db()
-
             with sqlite3.connect('user_id_password.db') as conn:
                 cursor = conn.cursor()
-                cursor.execute(
-                    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                    (name, email, password)
-                )
+                cursor.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                               (name, email, password))
                 conn.commit()
-
             return redirect(url_for('login'))
+        except sqlite3.IntegrityError:
+            return "Email already registered."
 
-        except Exception as e:
-            # This will output the exact error in your Render logs:
-            print("🛑 Registration Error:", repr(e))
-            return f"Internal error during registration: {e}", 500
-
-    return render_template('Register.html')
-
-
+    return render_template('register.html')
 
 # View all users 
 @app.route('/users')
@@ -266,25 +248,31 @@ def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
 
-@app.route('/settings')
-def settings():
-    return render_template('settings_1.html')
+def cleanup_dbs():
+    corrupted_dbs = ['mood_tracker.db', 'user_id_password.db']
+    for db_file in corrupted_dbs:
+        if os.path.exists(db_file):
+            try:
+                with sqlite3.connect(db_file) as conn:
+                    cursor = conn.cursor()
+                    cursor.execute("PRAGMA integrity_check")
+                    result = cursor.fetchone()
+                    if result[0] != "ok":
+                        print(f"{db_file} corrupted, deleting...")
+                        os.remove(db_file)
+            except sqlite3.DatabaseError:
+                print(f"{db_file} corrupted, deleting...")
+                os.remove(db_file)
 
-#logout route 
-@app.route('/logout')
-def logout():
-    session.clear()  # Clear all the data and login back
-    return redirect(url_for('login')) 
-
-@app.route('/check_templates')
-def check_templates():
-    path = os.path.join(app.root_path, 'templates', 'register.html')
-    exists = os.path.exists(path)
-    return f"register.html exists: {exists} at {path}"
-
-if __name__ == '__main__':  
+if __name__ == '__main__':
+    cleanup_dbs()
+    with app.app_context():
+        db.create_all()
     if not os.path.exists('user_id_password.db'):
         init_db()
+    app.run(debug=True)
 
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port, debug=True) 
+if __name__ == '__main__':
+    if not os.path.exists('user_id_password.db'):
+        init_db()
+    app.run(debug=True)
