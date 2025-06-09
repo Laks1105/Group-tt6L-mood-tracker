@@ -226,7 +226,7 @@ def stats():
 
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
 
-
+# list of quotes
 quotes = [
     "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
     "I was smiling yesterday, I am smiling today and I will smile tomorrow. Simply because life is too short. -Santosh Kalwar",
@@ -266,14 +266,8 @@ def settings():
 #logout route 
 @app.route('/logout')
 def logout():
-    session.clear()  # Clear all the data and login back
+    session.clear()  # Clearing all the data and the user login back
     return redirect(url_for('login')) 
-
-@app.route('/check_templates')
-def check_templates():
-    path = os.path.join(app.root_path, 'templates', 'register.html')
-    exists = os.path.exists(path)
-    return f"register.html exists: {exists} at {path}"
 
 if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
