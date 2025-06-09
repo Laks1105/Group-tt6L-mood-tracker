@@ -5,7 +5,15 @@ import sqlite3
 import random
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
+
+import logging
+from logging import StreamHandler
+
+handler = StreamHandler()
+handler.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
@@ -92,25 +100,36 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name'] #ask name
-        email = request.form['email'] #ask email
-        password = request.form['password'] #ask password
-        confirm = request.form['confirm-password'] #confirm password
-
-        if password != confirm:
-            return render_template('register.html', error="Incorrect Password! Re-Enter the Password")
-
         try:
+            name = request.form['name'] #ask user for name
+            email = request.form['email'] #ask user for email id
+            password = request.form['password'] #ask user for password
+            confirm = request.form['confirm-password'] # confirming the password
+
+            if password != confirm:
+                return render_template('register.html', error="Passwords do not match.")
+
+            if not os.path.exists('user_id_password.db'):
+                init_db()
+
             with sqlite3.connect('user_id_password.db') as conn:
                 cursor = conn.cursor()
-                cursor.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                               (name, email, password))
+                cursor.execute(
+                    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                    (name, email, password)
+                )
                 conn.commit()
-            return redirect(url_for('login'))
-        except sqlite3.IntegrityError:
-            return "Email already registered."
 
-    return render_template('register.html')
+            return redirect(url_for('login'))
+
+        except Exception as e:
+            # This will output the exact error in your Render logs:
+            print("🛑 Registration Error:", repr(e))
+            return f"Internal error during registration: {e}", 500
+
+    return render_template('Register.html')
+
+
 
 # View all users 
 @app.route('/users')
@@ -248,31 +267,25 @@ def shuffle_quote():
     selected_quote = random.choice(quotes)
     return jsonify({'quote': selected_quote})
 
-def cleanup_dbs():
-    corrupted_dbs = ['mood_tracker.db', 'user_id_password.db']
-    for db_file in corrupted_dbs:
-        if os.path.exists(db_file):
-            try:
-                with sqlite3.connect(db_file) as conn:
-                    cursor = conn.cursor()
-                    cursor.execute("PRAGMA integrity_check")
-                    result = cursor.fetchone()
-                    if result[0] != "ok":
-                        print(f"{db_file} corrupted, deleting...")
-                        os.remove(db_file)
-            except sqlite3.DatabaseError:
-                print(f"{db_file} corrupted, deleting...")
-                os.remove(db_file)
+@app.route('/settings')
+def settings():
+    return render_template('settings_1.html')
 
-if __name__ == '__main__':
-    cleanup_dbs()
-    with app.app_context():
-        db.create_all()
+#logout route 
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear all the data and login back
+    return redirect(url_for('login')) 
+
+@app.route('/check_templates')
+def check_templates():
+    path = os.path.join(app.root_path, 'templates', 'register.html')
+    exists = os.path.exists(path)
+    return f"register.html exists: {exists} at {path}"
+
+if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
         init_db()
-    app.run(debug=True)
 
-if __name__ == '__main__':
-    if not os.path.exists('user_id_password.db'):
-        init_db()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port, debug=True) 
