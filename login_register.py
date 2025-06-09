@@ -92,34 +92,29 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        try:
-            name = request.form['name'] #ask user for name
-            email = request.form['email'] #ask user for email id
-            password = request.form['password'] #ask user for password
-            confirm = request.form['confirm-password'] # confirming the password
+        name = request.form['name']  # ask user for name
+        email = request.form['email']  # ask user for email id
+        password = request.form['password']  # ask user for password
+        confirm = request.form['confirm-password']  # confirming the password
 
-            if password != confirm:
-                return render_template('register.html', error="Passwords do not match.")
+        if password != confirm:
+            return render_template('Register.html', error="Passwords do not match.")
 
-            if not os.path.exists('user_id_password.db'):
-                init_db()
+        if not os.path.exists('user_id_password.db'):
+            init_db()
 
-            with sqlite3.connect('user_id_password.db') as conn:
-                cursor = conn.cursor()
-                cursor.execute(
-                    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                    (name, email, password)
-                )
-                conn.commit()
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                (name, email, password)
+            )
+            conn.commit()
 
-            return redirect(url_for('login'))
-
-        except Exception as e:
-            # This will output the exact error in your Render logs:
-            print("🛑 Registration Error:", repr(e))
-            return f"Internal error during registration: {e}", 500
+        return redirect(url_for('login'))
 
     return render_template('Register.html')
+
 
 
 
