@@ -7,13 +7,6 @@ import os
 
 app = Flask(__name__, template_folder='templates')
 
-import logging
-from logging import StreamHandler
-
-handler = StreamHandler()
-handler.setLevel(logging.DEBUG)
-app.logger.addHandler(handler)
-app.logger.setLevel(logging.DEBUG)
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
@@ -75,8 +68,8 @@ def homepage():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['Email'] #inserting username
-        password = request.form['password'] #inserting password
+        email = request.form['Email'] #the user inserting username
+        password = request.form['password'] #the user nserting password
 
         # Authenticate user
         with sqlite3.connect('user_id_password.db') as conn:
@@ -99,32 +92,23 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        try:
-            name = request.form['name'] #ask user for name
-            email = request.form['email'] #ask user for email id
-            password = request.form['password'] #ask user for password
-            confirm = request.form['confirm-password'] # confirming the password
+        name = request.form['name'] #asking user for username
+        email = request.form['email'] #asking user's email ID
+        password = request.form['password'] #asking user for password (can be anything)
+        confirm = request.form['confirm-password'] # confirming the password
 
-            if password != confirm:
-                return render_template('register.html', error="Passwords do not match.")
+        if password != confirm:
+            return render_template('Register.html', error="Passwords do not match.")
 
-            if not os.path.exists('user_id_password.db'):
-                init_db()
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return render_template('Register.html', error="Email is already registered.")
 
-            with sqlite3.connect('user_id_password.db') as conn:
-                cursor = conn.cursor()
-                cursor.execute(
-                    "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                    (name, email, password)
-                )
-                conn.commit()
+        new_user = User(name=name, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
 
-            return redirect(url_for('login'))
-
-        except Exception as e:
-            # This will output the exact error in your Render logs:
-            print("🛑 Registration Error:", repr(e))
-            return f"Internal error during registration: {e}", 500
+        return redirect(url_for('login'))
 
     return render_template('Register.html')
 
@@ -139,7 +123,7 @@ def list_users():
         users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-# Route for Mood Selection (user selecting the mood)
+# Route for Mood Selection (user selecting the mood) #THE MAIN PAGE
 @app.route('/mood', methods=['GET', 'POST'])
 def mood_selector():
     name = session.get('username', 'Guest')  # Getting username 
@@ -161,15 +145,16 @@ def mood_selector():
         elif selected_mood == 'Stress':
             return redirect(url_for('stress_mood_opt')) #if user choose stress
         elif selected_mood == 'Angry':
-            return redirect(url_for('angry_mood_opt'))
+            return redirect(url_for('angry_mood_opt')) #if user choose angry
         elif selected_mood == 'Relax':
-            return redirect(url_for('relax_mood_opt'))
+            return redirect(url_for('relax_mood_opt')) # if user choose relaxed
         elif selected_mood == 'Energetic':
-            return redirect(url_for('energetic_mood_opt'))
+            return redirect(url_for('energetic_mood_opt')) #if user choose energetic
         #Options based on Selected mood
 
     return render_template('Mood_selection.html', username=name)
 
+#(THE FUNCTIONS FOR EACH MOODS - it will be linked to HTML as well)
 #Happy Mood Selection
 @app.route('/mood/happy')
 def happy_mood_opt():
@@ -206,42 +191,38 @@ def energetic_mood_opt():
     username = session.get('username', 'Guest')
     return render_template('Song_Selection_Energetic_1.html', username=username)
 
+
 # Mood statistics route
 @app.route('/graph')
 def stats():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    user_id = session['user_id']
+    user_id = session['user_id']  # Geting the login user ID..
+    #so it will save the statistics count according to the user ID
 
-    # Weekly range (Monday to Sunday)
+    # Weekly range
     today = datetime.today()
-    start_of_week = today - timedelta(days=today.weekday())
+    start_of_week = today - timedelta(days=today.weekday())  #on Monday will be starting from 0
     end_of_week = start_of_week + timedelta(days=7)
 
-    # Print for debug
-    print(f"Start of week: {start_of_week}")
-    print(f"End of week: {end_of_week}")
+    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relax', 'Angry']
 
-    # List of expected mood values (exact matches)
-    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relaxed', 'Angry']  # fixed spelling from Relax to Relaxed
-
-    # Get mood counts (case-insensitive match, strip prefixes if needed)
-    mood_counts = []
-    for mood in moods:
-        count = MoodEntry.query.filter(
+    mood_counts = [
+        MoodEntry.query.filter(
             MoodEntry.user_id == user_id,
-            MoodEntry.mood.ilike(f"%{mood}%"),  # allows partial matches like "AHappy"
+            MoodEntry.mood == mood,
             MoodEntry.timestamp >= start_of_week,
             MoodEntry.timestamp < end_of_week
         ).count()
-        print(f"{mood}: {count}")  # debug output
-        mood_counts.append(count)
+        for mood in moods
+    ]
 
     return render_template('statistic_page_1.html', mood_counts=mood_counts)
 
 
 
+#the quotes
 quotes = [
     "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
     "I was smiling yesterday, I am smiling today and I will smile tomorrow. Simply because life is too short. -Santosh Kalwar",
@@ -264,15 +245,16 @@ quotes = [
     "The best way to predict the future is to create it. -Abraham Lincoln"
 ]
 
-
+#shuffling quotes code
 @app.route('/quotes')
 def shuffling_quote_opt():
     return render_template('quotes_page_1.html')
 
+#randomly shuffle setup 
 @app.route('/shuffle')
 def shuffle_quote():
-    selected_quote = random.choice(quotes)
-    return jsonify({'quote': selected_quote})
+    selected_quote = random.choice(quotes) #randomly shuffle's
+    return jsonify({'quote': selected_quote}) #returning back to the html design
 
 @app.route('/settings')
 def settings():
@@ -281,14 +263,9 @@ def settings():
 #logout route 
 @app.route('/logout')
 def logout():
-    session.clear()  # Clear all the data and login back
+    session.clear()  # Clearing all the data and let the user to login back
     return redirect(url_for('login')) 
-
-@app.route('/check_templates')
-def check_templates():
-    path = os.path.join(app.root_path, 'templates', 'register.html')
-    exists = os.path.exists(path)
-    return f"register.html exists: {exists} at {path}"
+#it will bring the user to login page back
 
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
