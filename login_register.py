@@ -264,9 +264,9 @@ def logout():
     session.clear()  # Clearing all the data and the user login back
     return redirect(url_for('login')) 
 
-if __name__ == '_main_':
+if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()
-        port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
-    app.run(debug=True)
+    
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port, debug=True)
