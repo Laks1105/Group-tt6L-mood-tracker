@@ -5,7 +5,7 @@ import sqlite3
 import random
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
@@ -20,7 +20,8 @@ db = SQLAlchemy(app)
 # User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
+    name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     mood_entries = db.relationship('MoodEntry', backref='user', lazy=True)
 
@@ -37,27 +38,33 @@ with app.app_context():
 
 
 def init_db():
-    try:
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("PRAGMA integrity_check")
-            result = cursor.fetchone()
-            if result[0] != "ok":
-                raise sqlite3.DatabaseError("Corrupt database")
+    if os.path.exists('user_id_password.db'):
+        try:
+            with sqlite3.connect('user_id_password.db') as conn:
+                cursor = conn.cursor()
+                cursor.execute("PRAGMA integrity_check")
+                result = cursor.fetchone()
+                if result[0] != "ok":
+                    print("Corrupt DB found. Deleting.")
+                    os.remove('user_id_password.db')
+        except sqlite3.DatabaseError:
+            print("Database error on integrity check. Deleting DB.")
+            os.remove('user_id_password.db')
 
-            conn.execute('''
-                CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    email TEXT UNIQUE NOT NULL,
-                    password TEXT NOT NULL
-                )
-            ''')
-            print("Database and users table checked/created successfully.")
-    except sqlite3.DatabaseError:
-        os.remove('user_id_password.db')
-        print("Corrupted DB found. Deleted and recreating.")
-        init_db()
+    # Create a new DB and table if not exists
+    with sqlite3.connect('user_id_password.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL
+            )
+        ''')
+        conn.commit()
+        print("Database initialized or already exists.")
+
 
 # route for Home page to login page
 @app.route('/')
