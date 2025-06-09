@@ -5,15 +5,7 @@ import sqlite3
 import random
 import os
 
-app = Flask(__name__, template_folder='templates')
-
-import logging
-from logging import StreamHandler
-
-handler = StreamHandler()
-handler.setLevel(logging.DEBUG)
-app.logger.addHandler(handler)
-app.logger.setLevel(logging.DEBUG)
+app = Flask(__name__)
 
 # Set secret key for sessions
 app.config['SECRET_KEY'] = 'your_super_secret_key_here'
@@ -283,9 +275,8 @@ def check_templates():
     exists = os.path.exists(path)
     return f"register.html exists: {exists} at {path}"
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
     if not os.path.exists('user_id_password.db'):
         init_db()
 
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port, debug=True) 
+    app.run(debug=True)
