@@ -18,19 +18,25 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Installing the database
 db = SQLAlchemy(app)
 
-# Your models
+
+# User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)  # <-- ADD THIS LINE
     password = db.Column(db.String(150), nullable=False)
     mood_entries = db.relationship('MoodEntry', backref='user', lazy=True)
 
+# Mood Entry Model
 class MoodEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     mood = db.Column(db.String(50), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Create tables
+with app.app_context():
+    db.create_all()
+
 
 # Create the database and tables
 with app.app_context():
