@@ -60,14 +60,13 @@ def init_db():
 
 @app.route('/')
 def homepage():
-    return redirect(url_for('login'))
+    return redirect(url_for('login')) #automatically when user click the link it will pop up login page
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['Email']
-        password = request.form['password']
-
+        email = request.form['Email'] #check email id from db
+        password = request.form['password'] #check password id from db
         # Authenticate user
         with sqlite3.connect('user_id_password.db') as conn:
             cursor = conn.cursor()
@@ -75,8 +74,8 @@ def login():
             user = cursor.fetchone()
 
         if user:
-            session['username'] = user[1] # check username in database
-            session['user_id'] = user[0] #checking password
+            session['username'] = user[1] #Saves the user's name
+            session['user_id'] = user[0] #Saves the user's ID
             return redirect(url_for('mood_selector')) # move to mood selection page
         else:
             return render_template('login.html', error="Incorrect Email or password. Try again!") #if not it wont let the user to move to the next page
@@ -158,37 +157,37 @@ def mood_selector():
 #Happy Mood Selection
 @app.route('/mood/happy')
 def happy_mood_opt():
-    username = session.get('username', 'Guest')
+    username = session.get('username', 'Guest') #check the email and Username
     return render_template('Song_Selection_Happy_1.html', username=username)
 
 #Sad Mood Selection
 @app.route('/mood/sad')
 def sad_mood_opt():
-    username = session.get('username', 'Guest')
+    username = session.get('username', 'Guest') #check the email and Username
     return render_template('Song_Selection_Sad_1.html', username=username)
 
 #Stress Mood Selection
 @app.route('/mood/stress')
 def stress_mood_opt():
-    username = session.get('username', 'Guest')
+    username = session.get('username', 'Guest') #check the email and Username
     return render_template('Song_Selection_Stress_1.html', username=username)
 
 #Angry Mood Selection
 @app.route('/mood/angry')
 def angry_mood_opt():
-    username = session.get('username', 'Guest')
+    username = session.get('username', 'Guest') #check the email and Username
     return render_template('Song_Selection_Angry_1.html', username=username)
 
 #Relaxed Mood Selection
 @app.route('/mood/relax')
 def relax_mood_opt():
-    username = session.get('username', 'Guest')
+    username = session.get('username', 'Guest') #check the email and Username
     return render_template('Song_Selection_Relax_1.html', username=username)
 
 #Energetic Mood Selection
 @app.route('/mood/energetic')
 def energetic_mood_opt():
-    username = session.get('username', 'Guest')
+    username = session.get('username', 'Guest') #check the email and Username
     return render_template('Song_Selection_Energetic_1.html', username=username)
 
 
@@ -202,18 +201,19 @@ def stats():
     #so it will save the statistics count according to the user ID
 
     # Weekly range
-    today = datetime.today()
-    start_of_week = today - timedelta(days=today.weekday())  #on Monday will be starting from 0
-    end_of_week = start_of_week + timedelta(days=7)
+    today = datetime.today() #it will check today's datetime
+    starting_week_opt = today - timedelta(days=today.weekday())  #on Monday is the starting week..
+    ending_day_in_week = starting_week_opt+ timedelta(days=7) 
+    # once its Next monday it will start back as the first day of the week..
 
-    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relax', 'Angry']
+    moods = ['Happy', 'Sad', 'Energetic', 'Stress', 'Relax', 'Angry'] #list of moods 
 
     mood_counts = [
         MoodEntry.query.filter(
             MoodEntry.user_id == user_id,
             MoodEntry.mood == mood,
-            MoodEntry.timestamp >= start_of_week,
-            MoodEntry.timestamp < end_of_week
+            MoodEntry.timestamp >= starting_week_opt,
+            MoodEntry.timestamp < ending_day_in_week
         ).count()
         for mood in moods
     ]
@@ -254,11 +254,12 @@ def shuffling_quote_opt():
 @app.route('/shuffle')
 def shuffle_quote():
     selected_quote = random.choice(quotes) #randomly shuffle's
-    return jsonify({'quote': selected_quote}) #returning back to the html design
+    return jsonify({'quote': selected_quote}) #returning back to the html code.. 
+#from there it links to shuffling_quote_opt
 
 @app.route('/settings')
 def settings():
-    return render_template('settings_1.html')
+    return render_template('settings_1.html') 
 
 #logout route 
 @app.route('/logout')
@@ -267,9 +268,64 @@ def logout():
     return redirect(url_for('login')) 
 #it will bring the user to login page back
 
+# Change Name
+@app.route('/change_name', methods=['POST'])
+def change_name():
+    new_name = request.form['name'] #ask the user for the new input (username)
+    user_id = session.get('user_id') #checking if the username is same with the login one
+
+    if user_id:
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE users SET name = ? WHERE id = ?", (new_name, user_id))
+            conn.commit()
+            session['username'] = new_name 
+    return redirect(url_for('settings'))
+
+# Change Email
+@app.route('/change_email', methods=['POST'])
+def change_email():
+    new_email = request.form['email'] #ask the user for the new input (email)
+    user_id = session.get('user_id') #checking if the username is same with the login one
+
+    if user_id:
+        try:
+            with sqlite3.connect('user_id_password.db') as conn:
+                cursor = conn.cursor()
+                cursor.execute("UPDATE users SET email = ? WHERE id = ?", (new_email, user_id))
+                conn.commit()
+        except sqlite3.IntegrityError:
+            return "This email is already registered with another account."
+    return redirect(url_for('settings'))
+
+# Change Password
+@app.route('/change_password', methods=['POST']) 
+def change_password():
+    new_password = request.form['password'] #ask the user for the new input (password)
+    user_id = session.get('user_id') #checking if the username is same with the login one
+
+    if user_id:
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE users SET password = ? WHERE id = ?", (new_password, user_id))
+            conn.commit()
+    return redirect(url_for('settings'))
+
+# Delete Account
+@app.route('/delete_account', methods=['POST'])
+def delete_account():
+    user_id = session.get('user_id') #checking which user_id is used to login
+
+    if user_id:
+        with sqlite3.connect('user_id_password.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+            conn.commit()
+        session.clear()  
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
         init_db()
 
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port, debug=True) 
+    app.run(debug=True)
