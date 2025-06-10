@@ -200,7 +200,7 @@ def stats():
     user_id = session['user_id']  # Geting the login user ID..
     #so it will save the statistics count according to the user ID
 
-    # Weekly range
+    # Weekly counting 
     today = datetime.today() #it will check today's datetime
     starting_week_opt = today - timedelta(days=today.weekday())  #on Monday is the starting week..
     ending_day_in_week = starting_week_opt+ timedelta(days=7) 
