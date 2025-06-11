@@ -85,10 +85,10 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        confirm = request.form['confirm-password']
+        name = request.form['name'] 
+        email = request.form['email'] 
+        password = request.form['password'] 
+        confirm = request.form['confirm-password'] 
 
         if password != confirm:
             return render_template('Register.html', error="Passwords do not match.")
