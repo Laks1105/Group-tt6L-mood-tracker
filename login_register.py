@@ -67,20 +67,19 @@ def login():
     if request.method == 'POST':
         email = request.form['Email'] #check email id from db
         password = request.form['password'] #check password id from db
+
         # Authenticate user
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
-            user = cursor.fetchone()
+        user = User.query.filter_by(email=email, password=password).first() #search in db if email and password match
 
         if user:
-            session['username'] = user[1] #Saves the user's name
-            session['user_id'] = user[0] #Saves the user's ID
+            session['username'] = user.username #Saves the user's name
+            session['user_id'] = user.id #Saves the user's ID
             return redirect(url_for('mood_selector')) # move to mood selection page
         else:
             return render_template('login.html', error="Incorrect Email or password. Try again!") #if not it wont let the user to move to the next page
 
     return render_template('login.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -93,24 +92,19 @@ def register():
         if password != confirm:
             return render_template('Register.html', error="Passwords do not match.")
 
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
+        # Check if user already exists
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return render_template('Register.html', error="Email is already registered.")
 
-            # Check if email already exists
-            cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
-            existing_user = cursor.fetchone()
-
-            if existing_user:
-                return render_template('Register.html', error="Email is already registered.")
-
-            # Insert new user
-            cursor.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, password))
-            conn.commit()
+        # Save to database
+        new_user = User(username=name, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
 
         return redirect(url_for('login'))
 
     return render_template('Register.html')
-
 
 
 # View all users 
