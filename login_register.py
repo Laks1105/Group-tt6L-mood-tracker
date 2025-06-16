@@ -316,7 +316,7 @@ def delete_account():
             db.session.delete(user)
             db.session.commit()
         session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('login')) #get back to the login page
 
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
