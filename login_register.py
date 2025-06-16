@@ -269,11 +269,11 @@ def change_name():
     user_id = session.get('user_id') #checking if the username is same with the login one
 
     if user_id:
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("UPDATE users SET name = ? WHERE id = ?", (new_name, user_id))
-            conn.commit()
-            session['username'] = new_name 
+        user = User.query.get(user_id)
+        if user:
+            user.username = new_name
+            db.session.commit()
+            session['username'] = new_name
     return redirect(url_for('settings'))
 
 # Change Email
@@ -283,13 +283,13 @@ def change_email():
     user_id = session.get('user_id') #checking if the username is same with the login one
 
     if user_id:
-        try:
-            with sqlite3.connect('user_id_password.db') as conn:
-                cursor = conn.cursor()
-                cursor.execute("UPDATE users SET email = ? WHERE id = ?", (new_email, user_id))
-                conn.commit()
-        except sqlite3.IntegrityError:
-            return "This email is already registered with another account."
+        existing_user = User.query.filter_by(email=new_email).first()
+        if existing_user:
+            return render_template('settings_1.html', error="Email already in use.") 
+        user = User.query.get(user_id)
+        if user:
+            user.email = new_email
+            db.session.commit()
     return redirect(url_for('settings'))
 
 # Change Password
@@ -299,10 +299,10 @@ def change_password():
     user_id = session.get('user_id') #checking if the username is same with the login one
 
     if user_id:
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("UPDATE users SET password = ? WHERE id = ?", (new_password, user_id))
-            conn.commit()
+        user = User.query.get(user_id)
+        if user:
+            user.password = new_password
+            db.session.commit()
     return redirect(url_for('settings'))
 
 # Delete Account
@@ -311,11 +311,11 @@ def delete_account():
     user_id = session.get('user_id') #checking which user_id is used to login
 
     if user_id:
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
-            conn.commit()
-        session.clear()  
+        user = User.query.get(user_id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+        session.clear()
     return redirect(url_for('login'))
 
 if __name__ == '__main__':  
