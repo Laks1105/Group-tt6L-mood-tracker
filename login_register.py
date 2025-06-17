@@ -305,7 +305,7 @@ def change_password():
             db.session.commit()
     return redirect(url_for('settings'))
 
-# Delete Account
+#Delete Account
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
     user_id = session.get('user_id') #checking which user_id is used to login
@@ -316,7 +316,10 @@ def delete_account():
             db.session.delete(user)
             db.session.commit()
         session.clear()
-    return redirect(url_for('login')) #get back to the login page
+        return redirect(url_for('login')) #get back to the login page
+
+    return render_template('settings_1.html', error="User not found.") 
+
 
 if __name__ == '__main__':  
     if not os.path.exists('user_id_password.db'):
