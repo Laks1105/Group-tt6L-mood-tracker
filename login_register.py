@@ -316,12 +316,11 @@ def delete_account():
             db.session.delete(user)
             db.session.commit()
         session.clear()
-        return redirect(url_for('login')) #get back to the login page
+        return redirect(url_for('login')) #get back to the login page once the user db is deleted
 
     return render_template('settings_1.html', error="User not found.") 
 
-
-if __name__ == '__main__':  
+if __name__ == '__main__': 
     if not os.path.exists('user_id_password.db'):
         init_db()
 
