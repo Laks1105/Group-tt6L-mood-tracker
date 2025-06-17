@@ -290,7 +290,7 @@ def change_email():
         if user:
             user.email = new_email
             db.session.commit()
-    return redirect(url_for('settings'))
+    return redirect(url_for('settings')) 
 
 # Change Password
 @app.route('/change_password', methods=['POST']) 
@@ -305,20 +305,28 @@ def change_password():
             db.session.commit()
     return redirect(url_for('settings'))
 
-#Delete Account
+
+# Custom delete function using sqlite3
+def delete_account_sqlite(user_id):
+    try:
+        with sqlite3.connect('user_id_password.db') as conn:
+            conn.execute('DELETE FROM users WHERE id = ?', (user_id,))
+            print("Account deleted.")
+    except Exception as e:
+        print("Error:", e)
+
+# Flask route for deleting account
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
-    user_id = session.get('user_id') #checking which user_id is used to login
+    user_id = session.get('user_id')  # Get user ID from session
 
     if user_id:
-        user = User.query.get(user_id)
-        if user:
-            db.session.delete(user)
-            db.session.commit()
-        session.clear()
+        delete_account_sqlite(user_id) 
+        session.clear()  
         return redirect(url_for('login')) #get back to the login page once the user db is deleted
 
-    return render_template('settings_1.html', error="User not found.") 
+    return render_template('settings_1.html', error="User not found.")
+
 
 if __name__ == '__main__': 
     if not os.path.exists('user_id_password.db'):
