@@ -65,16 +65,16 @@ def homepage():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['Email'] #check email id from db
-        password = request.form['password'] #check password id from db
+        email = request.form['Email'] #letting user to key in their email
+        password = request.form['password'] #letting user to key in their password
 
         # Authenticate user
         user = User.query.filter_by(email=email, password=password).first() #search in db if email and password match
 
         if user:
-            session['username'] = user.username #Saves the user's name
-            session['user_id'] = user.id #Saves the user's ID
-            return redirect(url_for('mood_selector')) # move to mood selection page
+            session['username'] = user.username #checking if username is saved in db
+            session['user_id'] = user.id #checking if username is saved in db
+            return redirect(url_for('mood_selector')) # move to mood selection page 
         else:
             return render_template('login.html', error="Incorrect Email or password. Try again!") #if not it wont let the user to move to the next page
 
