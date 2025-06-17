@@ -305,35 +305,20 @@ def change_password():
             db.session.commit()
     return redirect(url_for('settings'))
 
-#Delete account route
+#Delete Account
 @app.route('/delete_account', methods=['POST'])
 def delete_account():
-    user_id = session.get('user_id')  # Get user ID from session
+    user_id = session.get('user_id') #checking which user_id is used to login
 
     if user_id:
-        # Delete mood entries related to the user
-        MoodEntry.query.filter_by(user_id=user_id).delete()
-        db.session.commit()
-
-        # Delete user from SQLAlchemy (mood_tracker.db)
         user = User.query.get(user_id)
         if user:
             db.session.delete(user)
             db.session.commit()
-
-        # Delete user from SQLite (user_id_password.db)
-        with sqlite3.connect('user_id_password.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
-            conn.commit()
-
-        # Clear session
         session.clear()
         return redirect(url_for('login')) #get back to the login page once the user db is deleted
 
-    return render_template('settings_1.html', error="User not found.")
-
-
+    return render_template('settings_1.html', error="User not found.") 
 
 
 if __name__ == '__main__': 
